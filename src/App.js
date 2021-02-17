@@ -1,25 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
+import { useSelector } from 'react-redux';
+
+import MenuBar from './Components/MenuBar';
+import Container from './Components/Container';
+
+import Home from './Pages/Home';
+import Items from './Pages/Items';
+import Settings from './Pages/Settings';
+import NewOrder from './Pages/NewOrder';
+import Order from './Pages/Order';
+
+const { ipcRenderer } = window.require('electron');
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const page = useSelector(state => state.page);
+
+	page === 'Order' ? ipcRenderer.invoke('start-order') : ipcRenderer.invoke('end-order');
+
+	return (
+		<div className="App">
+			<MenuBar/>
+			<div style={{height: '32px'}}></div>
+			<Container>
+				{ page === 'Home' ? <Home/> : null }
+				{ page === 'Settings' ? <Settings/> : null }
+			</Container>
+			{ page === 'New Order' ? <NewOrder/> : null }
+			{ page === 'Order' ? <Order/> : null }
+		</div>
+	);
 }
 
 export default App;
