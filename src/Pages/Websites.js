@@ -70,7 +70,7 @@ const Websites = () => {
                         <DeleteIcon onClick={onDeleteWebsite(website)}><FaTrash/></DeleteIcon>
                         <InputGroup>
                             <Label value='Search URL' width='120px'/>
-                            <Input value={website.searchURL} onChange={onChangeWebsite(website, 'searchURL')} width='700px'/>
+                            <Input value={website.searchURL} onChange={onChangeWebsite(website, 'searchURL')} align='left' width='700px'/>
                         </InputGroup>
                         <InputGroup>
                             <Input value={website.forceDownload} onChange={onChangeWebsite(website, 'forceDownload')} type='checkbox'/>
