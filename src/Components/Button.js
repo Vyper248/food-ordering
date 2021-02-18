@@ -9,6 +9,7 @@ const StyledComp = styled.button`
     margin: 5px;
     padding: 0px 10px;
     height: var(--input-height);
+    ${props => props.width ? `width: ${props.width}` : ''};
 
     &:hover {
         background-color: var(--menu-selected-color);
@@ -24,9 +25,9 @@ const StyledComp = styled.button`
     }
 `;
 
-const Button = ({value, onClick, selected=false, bgColor=''}) => {
+const Button = ({value, onClick, selected=false, bgColor='', ...rest}) => {
     return (
-        <StyledComp onClick={onClick} className={selected ? 'selected' : ''} bgColor={bgColor}>{value}</StyledComp>
+        <StyledComp onClick={onClick} className={selected ? 'selected' : ''} bgColor={bgColor} {...rest}>{value}</StyledComp>
     );
 }
 
