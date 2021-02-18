@@ -65,7 +65,7 @@ const Websites = () => {
             <br/>
             {
                 websites.map(website => {
-                    return <Card width='100%'>
+                    return <Card key={'website-'+website.id} width='100%'>
                         <Heading value={website.name}/>
                         <DeleteIcon onClick={onDeleteWebsite(website)}><FaTrash/></DeleteIcon>
                         <InputGroup>

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const StyledComp = styled.table`
+const Table = styled.table`
     border-collapse: collapse;
 
     & td {
@@ -12,9 +12,13 @@ const StyledComp = styled.table`
 
     & th {
         background-color: #222;
-        padding: 3px;
-        border-right: 1px solid var(--menu-border-color);
-        border-left: 1px solid var(--menu-border-color);
+        padding: 5px;
+        border: 1px solid var(--menu-border-color);
+    }
+
+    & td > input {
+        border: none;
+        margin: 0px;
     }
 
     & .category {
@@ -46,11 +50,5 @@ const StyledComp = styled.table`
         width: 140px
     }
 `;
-
-const Table = ({children}) => {
-    return (
-        <StyledComp>{children}</StyledComp>
-    );
-}
 
 export default Table;

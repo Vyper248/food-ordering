@@ -139,6 +139,7 @@ export const reducer = (state = initialState, action) => {
 
         case 'ADD_CATEGORY': newArray = addObject(state.categories, value); return {...state, categories: newArray};
         case 'UPDATE_CATEGORY': newArray = replaceObject(state.categories, value); return {...state, categories: newArray};
+        case 'REORDER_CATEGORY': newArray = replaceObject(state.categories, value, true); return {...state, categories: newArray};
         case 'REMOVE_CATEGORY': newArray = removeObject(state.categories, value); return {...state, categories: newArray};
 
         case 'ADD_WEBSITE': newArray = addObject(state.websites, value); return {...state, websites: newArray};
@@ -159,12 +160,13 @@ const removeObject = (arr, id) => {
     });
 }
 
-const replaceObject = (arr, object) => {
+const replaceObject = (arr, object, order=false) => {
     let copy = [...arr];
     let index = copy.findIndex(obj => obj.id === object.id);
     if (index === -1) return arr;
     object.updated = Number(format(new Date(),'yyyyMMddHHmmss'));
     copy.splice(index,1,object);
+    if (order) copy.sort((a,b) => a.order - b.order);
     return copy;
 }
 

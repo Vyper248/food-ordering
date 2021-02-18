@@ -1,6 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { filterDeleted } from '../functions';
+
 import OrderItem from '../Components/OrderItem';
 import OrderGroup from '../Components/OrderGroup';
 import Table from '../Components/Table';
@@ -11,8 +13,8 @@ const Order = () => {
     const dispatch = useDispatch();
     const orderList = useSelector(state => state.orderList);
     const website = useSelector(state => state.website);
-    const categories = useSelector(state => state.categories);
-    const items = useSelector(state => state.items);
+    const categories = useSelector(state => filterDeleted(state.categories));
+    const items = useSelector(state => filterDeleted(state.items));
 
     const websiteItems = items.map(item => {
         const details = item.details[website];
