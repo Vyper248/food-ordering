@@ -135,6 +135,7 @@ export const reducer = (state = initialState, action) => {
 
         case 'ADD_ITEM': newArray = addObject(state.items, value); return {...state, items: newArray};
         case 'UPDATE_ITEM': newArray = replaceObject(state.items, value); return {...state, items: newArray};
+        case 'REORDER_ITEM': newArray = replaceObject(state.items, value, true); return {...state, items: newArray};
         case 'REMOVE_ITEM': newArray = removeObject(state.items, value); return {...state, items: newArray};
 
         case 'ADD_CATEGORY': newArray = addObject(state.categories, value); return {...state, categories: newArray};
