@@ -4,6 +4,13 @@
   --menu-border-color: #555;
   --menu-selected-color: #555;
   --menu-background-color: black;
+
+  --input-height: 35px;
+  --label-color: #222;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body, html {

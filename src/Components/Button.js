@@ -2,12 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledComp = styled.button`
-    background-color: var(--background-color);
+    background-color: ${props => props.bgColor.length > 0 ? props.bgColor : 'var(--background-color);'};
     color: var(--text-color);
     border: 1px solid var(--menu-border-color);
     border-radius: 5px;
     margin: 5px;
-    padding: 10px;
+    padding: 0px 10px;
+    height: var(--input-height);
 
     &:hover {
         background-color: var(--menu-selected-color);
@@ -23,9 +24,9 @@ const StyledComp = styled.button`
     }
 `;
 
-const Button = ({value, onClick, selected=false}) => {
+const Button = ({value, onClick, selected=false, bgColor=''}) => {
     return (
-        <StyledComp onClick={onClick} className={selected ? 'selected' : ''}>{value}</StyledComp>
+        <StyledComp onClick={onClick} className={selected ? 'selected' : ''} bgColor={bgColor}>{value}</StyledComp>
     );
 }
 
