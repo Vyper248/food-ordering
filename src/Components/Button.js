@@ -17,11 +17,15 @@ const StyledComp = styled.button`
     &:focus {
         outline: none;
     }
+
+    &.selected {
+        background-color: var(--menu-selected-color);
+    }
 `;
 
-const Button = ({value, onClick}) => {
+const Button = ({value, onClick, selected=false}) => {
     return (
-        <StyledComp onClick={onClick}>{value}</StyledComp>
+        <StyledComp onClick={onClick} className={selected ? 'selected' : ''}>{value}</StyledComp>
     );
 }
 

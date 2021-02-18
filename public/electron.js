@@ -13,7 +13,7 @@ let ordering = false;
 
 function createWindow() {
     containerWindow = new BrowserWindow({width: 1600, height: 1000, frame: true, webPreferences: { nodeIntegration: true }});
-    containerWindow.setTitle('Reddit');
+    containerWindow.setTitle('Food Ordering');
     containerWindow.on('closed', () => containerWindow = null);
     containerWindow.on('page-title-updated', function(e) {
         e.preventDefault();

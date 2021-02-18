@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 
 const initialState = {
     page: 'Home',
-    website: '',
+    website: 1,
     user: null,
     message: {
         text: '',
@@ -10,15 +10,111 @@ const initialState = {
     },
     lastSync: 0,
     fetching: false,
-    items: [],
-    categories: [],
+    orderList: [
+        {
+            name: 'Weetabix',
+            id: 1,
+            order: 1,
+            category: 1,
+            qty: 2,
+            size: '48PK',
+            note: '',
+            url: 'https://groceries.asda.com/product/wheat-biscuits-mini-wheats/asda-wheat-bisks/21056'
+        },
+        {
+            name: 'Cornflakes',
+            id: 2,
+            order: 2,
+            category: 1,
+            qty: 1,
+            size: '',
+            note: '',
+            url: 'https://groceries.asda.com/product/cornflakes-crunchy-nut/kelloggs-corn-flakes-cereal/1000121939238'
+        },
+        {
+            name: 'Tortellini',
+            id: undefined,
+            order: 3,
+            category: 1,
+            qty: 4,
+            size: '250g',
+            note: '',
+            url: ''
+        }
+    ],
+    items: [
+        {
+            id: 1,
+            order: 1,
+            name: 'Weetabix',
+            category: 1,
+            details: {
+                1: {
+                    size: '48PK',
+                    url: 'https://groceries.asda.com/product/wheat-biscuits-mini-wheats/asda-wheat-bisks/21056',
+                    note: 'Cheap Ones!'
+                },
+                2: {
+                    size: '24PK',
+                    url: '',
+                    note: ''
+                }
+            }
+        },
+        {
+            id: 2,
+            order: 2,
+            name: 'Cornflakes',
+            category: 1,
+            details: {
+                1: {
+                    size: '',
+                    url: 'https://groceries.asda.com/product/cornflakes-crunchy-nut/kelloggs-corn-flakes-cereal/1000121939238',
+                    note: ''
+                },
+                2: {
+                    size: '',
+                    url: '',
+                    note: ''
+                }
+            }
+        }
+    ],
+    categories: [
+        {
+            id: 1,
+            name: 'Cereals',
+            column: 1,
+            page: 1,
+            rowsAfter: 1,
+            order: 1,
+        },
+        {
+            id: 2,
+            name: 'Tinned/Cans',
+            column: 1,
+            page: 1,
+            rowsAfter: 1,
+            order: 2,
+        },
+        {
+            id: 3,
+            name: 'Dry Goods',
+            column: 2,
+            page: 1,
+            rowsAfter: 1,
+            order: 3,
+        },
+    ],
     websites: [
         {
+            id: 1,
             name: 'ASDA',
             searchURL: 'https://groceries.asda.com/search/',
             forceDownload: true
         },
         {
+            id: 2,
             name: 'Tesco',
             searchURL: 'https://www.tesco.com/groceries/en-GB/search?query=',
             forceDownload: false

@@ -1,18 +1,60 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import OrderItem from '../Components/OrderItem';
+import OrderGroup from '../Components/OrderGroup';
+import Table from '../Components/Table';
 
 const { ipcRenderer } = window.require('electron');
 
 const Order = () => {
+    const dispatch = useDispatch();
+    const orderList = useSelector(state => state.orderList);
+    const website = useSelector(state => state.website);
+    const categories = useSelector(state => state.categories);
+    const items = useSelector(state => state.items);
+
+    const websiteItems = items.map(item => {
+        const details = item.details[website];
+        let newItem = {
+            name: item.name,
+            id: item.id,
+            order: item.order,
+            category: item.category,
+            size: details.size,
+            note: details.note,
+            url: details.url
+        }
+        return newItem;
+    });
+
+    const empty = orderList.length === 0 ? true : false;
+
     const loadUrl = (url) => () => {
 		ipcRenderer.invoke('send-url', url);
 	}
 
+    const itemArray = empty ? websiteItems : orderList;
+
     return (
         <div>
-            <div onClick={loadUrl('https://groceries.asda.com/product/chocolate-sweet-spreads/lotus-biscoff-smooth-biscuit-spread/910001370718')}>Biscoff</div>
-            <div onClick={loadUrl('https://groceries.asda.com/product/nut-butters/whole-earth-smooth-peanut-butter/1000200347701')}>Peanut Butter</div>
-            <div onClick={loadUrl('https://groceries.asda.com/product/fresh-filled-pasta/asda-garlic-herb-tortelloni/910000278537')}>Tortellini</div>
-            <div onClick={loadUrl('https://groceries.asda.com/product/mini-bites-muffins/asda-bakers-selection-24-mini-flapjack-bites/1000056262453')}>Flapjack</div>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Size</th>
+                        { empty ? null : <th>Qty</th> }
+                        <th>Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        categories.map(category => {
+                            return <OrderGroup key={`order-group-${category.id}`} category={category} orderList={itemArray} loadUrl={loadUrl}/>
+                        })
+                    }
+                </tbody>
+            </Table>
         </div>
     );
 }
