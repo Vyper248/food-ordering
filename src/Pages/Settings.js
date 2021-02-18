@@ -8,7 +8,7 @@ import Categories from './Categories';
 import Items from './Items';
 
 const Settings = () => {
-    const [page, setPage] = useState('Websites');
+    const [page, setPage] = useState('Items');
 
     const onChangePage = (page) => () => {
         setPage(page);
