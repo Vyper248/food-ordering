@@ -11,6 +11,7 @@ const StyledComp = styled.input`
     background-color: var(--background-color);
     color: var(--text-color);
     padding: 0px 10px;
+    text-align: ${props => props.align};
     ${props => props.width ? 'width: '+props.width : ''};
 
     &:focus {
@@ -18,7 +19,7 @@ const StyledComp = styled.input`
     }
 `;
 
-const Input = ({value, onChange, placeholder='', useBlur=false, ...rest}) => {
+const Input = ({value, onChange, useBlur=false, align='center', ...rest}) => {
 
     const onChangeInput = (e) => {
         onChange(e.target.value);
@@ -29,11 +30,11 @@ const Input = ({value, onChange, placeholder='', useBlur=false, ...rest}) => {
     }
 
     if (rest.type === 'checkbox') {
-        return <StyledComp value={value} onChange={onChangeCheckbox} placeholder={placeholder} {...rest} checked={value}/>
+        return <StyledComp value={value} onChange={onChangeCheckbox} align={align} {...rest} checked={value}/>
     }
 
     return (
-        <StyledComp value={value} onChange={onChangeInput} placeholder={placeholder} {...rest}/>
+        <StyledComp value={value} onChange={onChangeInput} align={align} {...rest}/>
     );
 }
 
