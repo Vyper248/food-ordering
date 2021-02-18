@@ -19,10 +19,13 @@ const StyledComp = styled.input`
     }
 `;
 
-const Input = ({value, onChange, useBlur=false, align='center', ...rest}) => {
+const Input = ({value, onChange=()=>{}, useBlur=false, align='center', ...rest}) => {
+    if (rest.type === 'number' && value === undefined) value = 0; 
 
     const onChangeInput = (e) => {
-        onChange(e.target.value);
+        let value = e.target.value;
+        if (rest.type === 'number') value = parseInt(value);
+        onChange(value);
     }
 
     const onChangeCheckbox = (e) => {

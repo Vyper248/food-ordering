@@ -31,8 +31,8 @@ const Home = () => {
                 websites.map(website => {
                     return <Card key={'website-'+website.id}>
                         <Heading value={website.name}/>
-                        <Button value='New Order' onClick={onClickNewOrder(website)}/>
-                        <Button value='Empty Order' onClick={onClickEmptyOrder(website)}/>
+                        <Button value='New Order' onClick={onClickNewOrder(website.id)}/>
+                        <Button value='Empty Order' onClick={onClickEmptyOrder(website.id)}/>
                     </Card>;
                 })
             }

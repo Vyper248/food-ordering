@@ -17,7 +17,7 @@ const StyledComp = styled.select`
     }
 `;
 
-const Dropdown = ({options, onChange, ...rest}) => {
+const Dropdown = ({options, onChange=()=>{}, ...rest}) => {
     const onChangeDropdown = (e) => {
         onChange(e.target.value);
     }

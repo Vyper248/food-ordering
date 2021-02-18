@@ -6,8 +6,9 @@ const OrderItem = ({item, loadUrl}) => {
     const website = useSelector(state => state.website);
     const [done, setDone] = useState(false);
 
-    const currentWebsite = websites.find(obj => obj.id === website);
-    if (currentWebsite === undefined) return null;
+    let currentWebsite = websites.find(obj => obj.id === website);
+    if (currentWebsite === undefined && websites.length === 0) return null;
+    if (currentWebsite === undefined) currentWebsite = websites[0];
 
     let url = item.url;
     if (url.length > 0 && !url.includes('http')) url = currentWebsite.searchURL + item.url;
