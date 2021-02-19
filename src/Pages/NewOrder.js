@@ -1,11 +1,104 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { filterDeleted } from '../functions';
 
 import Heading from '../Components/Heading';
+import Dropdown from '../Components/Dropdown';
+import Button from '../Components/Button';
+import Table from '../Components/Table';
+import Grid from '../Components/Grid';
+import OrderGroup from '../Components/OrderGroup';
 
 const NewOrder = () => {
+    const dispatch = useDispatch();
+    const [page, setPage] = useState(1);
+    const websites = useSelector(state => filterDeleted(state.websites));
+    const categories = useSelector(state => filterDeleted(state.categories));
+    const items = useSelector(state => filterDeleted(state.items));
+    const orderList = useSelector(state => state.orderList);
+    const website = useSelector(state => state.website);
+
+    const changeWebsite = (value) => dispatch({type: 'SET_WEBSITE', payload: value});
+    const setOrderList = (value) => dispatch({type: 'SET_ORDER_LIST', payload: value});
+    const updateOrderList = (value) => dispatch({type: 'UPDATE_ORDER_LIST', payload: value});
+    const goToOrder = () => dispatch({type: 'SET_PAGE', payload: 'Order'});
+
+    useEffect(() => {
+        setOrderList(items.map(item => JSON.parse(JSON.stringify(item))));
+        console.log('setting order list');
+    }, []);
+
+    const onChangePage = (page) => () => {
+        setPage(page);
+    }
+
+    //get page numbers
+    let pages = [];
+    categories.forEach(category => {
+        if (pages.includes(category.page)) return;
+        pages.push(category.page);
+    });
+    pages.sort();
+
+    //get categories for selected page
+    let filteredCategories = categories.filter(obj => obj.page === page);
+    
+    //get number of columns for this page and add categories to column array
+    let columns = {};
+    filteredCategories.forEach(category => {
+        if (columns[category.column] === undefined) columns[category.column] = [];
+        columns[category.column].push(category);
+    });
+    let numberOfColumns = Object.keys(columns).length;
+
+    const onChangeItem = (item, key) => (value) => {
+        if (key !== 'size' && key !== 'note') item[key] = value;
+        else item.details[website][key] = value;
+        updateOrderList(item)
+    }
+
     return (
-        <div>
+        <div style={{maxWidth: '1400px', margin: 'auto'}}>
             <Heading value='New Order'/>
+
+            <Button value='Import'/>
+            <Dropdown value={website} options={websites.map(obj => ({value: obj.id, display: obj.name}))} onChange={changeWebsite} width='150px'/>
+            <Button value='Download'/>
+            <Button value='Order' onClick={goToOrder}/>
+
+            <Grid columns={`repeat(${pages.length}, 1fr)`} style={{gap: '10px', margin: '10px'}}>
+            {
+                pages.map(pageNumber => {
+                    return <Button key={`page-button-${pageNumber}`} value={`Page ${pageNumber}`} width='100%' selected={pageNumber === page} onClick={onChangePage(pageNumber)}/>;
+                })
+            }
+            </Grid>
+
+            <Grid columns={`repeat(${numberOfColumns}, 1fr)`} style={{gap: '10px', margin: '10px'}}>
+            {
+                Object.keys(columns).map(key => {
+                    let arr = columns[key];
+                    return <Table key={`order-table-${key}`} style={{width: '100%'}}>
+                        <thead>
+                            <tr>
+                                <td>Name</td>
+                                <td>Size</td>
+                                <td>Qty</td>
+                                <td>Note</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                arr.map(category => {
+                                    return <OrderGroup key={`order-group-${category.id}`} category={category} orderList={orderList} onChangeItem={onChangeItem}/>;
+                                })
+                            }
+                        </tbody>
+                    </Table>
+                })
+            }
+            </Grid>
         </div>
     );
 }

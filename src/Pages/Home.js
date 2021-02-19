@@ -13,10 +13,12 @@ const Home = () => {
 
     const setPage = (value) => dispatch({type: 'SET_PAGE', payload: value});
     const setWebsite = (value) => dispatch({type: 'SET_WEBSITE', payload: value});
+    const clearOrderItems = () => dispatch({type: 'SET_ORDER_LIST', payload: []});
 
     const onClickEmptyOrder = (website) => () => {
         setPage('Order');
         setWebsite(website);
+        clearOrderItems();
     }
 
     const onClickNewOrder = (website) => () => {

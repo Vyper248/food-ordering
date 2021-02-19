@@ -1,10 +1,14 @@
 import React from 'react';
 
+import { getTotalQty } from '../functions';
+
 import OrderItem from './OrderItem';
 
-const OrderGroup = ({category, orderList, loadUrl}) => {
+const OrderGroup = ({category, orderList, empty, ...rest}) => {
     let filtered = orderList.filter(obj => obj.category === category.id);
     if (filtered.length === 0) return null;
+
+    if (empty === false && getTotalQty(filtered) === 0) return null;
 
     return (
         <React.Fragment>
@@ -13,7 +17,7 @@ const OrderGroup = ({category, orderList, loadUrl}) => {
             </tr>
             {
                 filtered.map(item => {
-                    return <OrderItem key={`orderItem-${item.id}`} item={item} loadUrl={loadUrl}/>
+                    return <OrderItem key={`orderItem-${category.id}-${item.name}-${item.id}`} item={item} empty={empty} {...rest}/>
                 })
             }
         </React.Fragment>

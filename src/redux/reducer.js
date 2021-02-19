@@ -10,26 +10,26 @@ const initialState = {
     },
     lastSync: 0,
     fetching: false,
+    currentItem: 0,
     orderList: [
         {
-            name: 'Weetabix',
-            id: 1,
-            order: 1,
-            category: 1,
-            qty: 2,
-            size: '48PK',
-            note: '',
-            url: 'https://groceries.asda.com/product/wheat-biscuits-mini-wheats/asda-wheat-bisks/21056'
-        },
-        {
-            name: 'Cornflakes',
             id: 2,
             order: 2,
+            name: 'Cornflakes',
             category: 1,
-            qty: 1,
-            size: '',
-            note: '',
-            url: 'https://groceries.asda.com/product/cornflakes-crunchy-nut/kelloggs-corn-flakes-cereal/1000121939238'
+            qty: 2,
+            details: {
+                1: {
+                    size: '',
+                    url: 'https://groceries.asda.com/product/cornflakes-crunchy-nut/kelloggs-corn-flakes-cereal/1000121939238',
+                    note: ''
+                },
+                2: {
+                    size: '',
+                    url: '',
+                    note: ''
+                }
+            }
         },
         {
             name: 'Tortellini',
@@ -37,9 +37,18 @@ const initialState = {
             order: 3,
             category: 1,
             qty: 4,
-            size: '250g',
-            note: '',
-            url: ''
+            details: {
+                1: {
+                    size: '',
+                    url: '',
+                    note: ''
+                },
+                2: {
+                    size: '',
+                    url: '',
+                    note: ''
+                }
+            }
         }
     ],
     items: [
@@ -78,7 +87,43 @@ const initialState = {
                     note: ''
                 }
             }
-        }
+        },
+        {
+            id: 3,
+            order: 1,
+            name: 'Buttery Spread',
+            category: 4,
+            details: {
+                1: {
+                    size: '',
+                    url: '',
+                    note: ''
+                },
+                2: {
+                    size: '',
+                    url: '',
+                    note: ''
+                }
+            }
+        },
+        {
+            id: 4,
+            order: 1,
+            name: 'Flour',
+            category: 3,
+            details: {
+                1: {
+                    size: '',
+                    url: '',
+                    note: ''
+                },
+                2: {
+                    size: '',
+                    url: '',
+                    note: ''
+                }
+            }
+        },
     ],
     categories: [
         {
@@ -87,7 +132,7 @@ const initialState = {
             column: 1,
             page: 1,
             rowsAfter: 1,
-            order: 1,
+            order: 0,
         },
         {
             id: 2,
@@ -95,13 +140,21 @@ const initialState = {
             column: 1,
             page: 1,
             rowsAfter: 1,
-            order: 2,
+            order: 1,
         },
         {
             id: 3,
             name: 'Dry Goods',
             column: 2,
             page: 1,
+            rowsAfter: 1,
+            order: 2,
+        },
+        {
+            id: 4,
+            name: 'Chilled',
+            column: 1,
+            page: 2,
             rowsAfter: 1,
             order: 3,
         },
@@ -131,12 +184,17 @@ export const reducer = (state = initialState, action) => {
         case 'SET_USER': return {...state, user: value};
         case 'SET_MESSAGE': return {...state, message: value};
         case 'SET_FETCHING': return {...state, fetching: value};
-        case 'SET_WEBSITE': return {...state, website: value};
+        case 'SET_WEBSITE': return {...state, website: parseInt(value)};
+        case 'SET_CURRENT_ITEM': return {...state, currentItem: parseInt(value)};
 
         case 'ADD_ITEM': newArray = addObject(state.items, value); return {...state, items: newArray};
         case 'UPDATE_ITEM': newArray = replaceObject(state.items, value); return {...state, items: newArray};
         case 'REORDER_ITEM': newArray = replaceObject(state.items, value, true); return {...state, items: newArray};
         case 'REMOVE_ITEM': newArray = removeObject(state.items, value); return {...state, items: newArray};
+        case 'UPDATE_URL': 
+                let itemArray = updateURL(state.items, state.currentItem, state.website, value); 
+                let orderArray = updateURL(state.orderList, state.currentItem, state.website, value); 
+                return {...state, items: itemArray, orderList: orderArray};
 
         case 'ADD_CATEGORY': newArray = addObject(state.categories, value); return {...state, categories: newArray};
         case 'UPDATE_CATEGORY': newArray = replaceObject(state.categories, value); return {...state, categories: newArray};
@@ -146,6 +204,9 @@ export const reducer = (state = initialState, action) => {
         case 'ADD_WEBSITE': newArray = addObject(state.websites, value); return {...state, websites: newArray};
         case 'UPDATE_WEBSITE': newArray = replaceObject(state.websites, value); return {...state, websites: newArray};
         case 'REMOVE_WEBSITE': newArray = removeObject(state.websites, value); return {...state, websites: newArray};
+
+        case 'SET_ORDER_LIST': return {...state, orderList: value};
+        case 'UPDATE_ORDER_LIST': newArray = replaceObject(state.orderList, value); return {...state, orderList: newArray};
 
         case 'SYNC': return {...state, ...value, lastSync: dateValue};
         default: return state;
@@ -169,6 +230,17 @@ const replaceObject = (arr, object, order=false) => {
     copy.splice(index,1,object);
     if (order) copy.sort((a,b) => a.order - b.order);
     return copy;
+}
+
+const updateURL = (arr, itemId, websiteId, url) => {
+    let item = arr.find(item => item.id === itemId);
+    if (item !== undefined) {
+        let details = item.details;
+        if (details[websiteId] !== undefined) details[websiteId].url = url;
+        else details[websiteId] = {size: '', note: '', url: url};
+        return replaceObject(arr, item);
+    }
+    return arr;
 }
 
 const addObject = (arr, object) => {

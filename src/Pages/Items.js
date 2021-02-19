@@ -110,7 +110,7 @@ const Items = () => {
             <Heading value='Items'/>
             {
                 categories.map(cat => {
-                    return <Button value={cat.name} onClick={onClickCategory(cat.id)} selected={category === cat.id}/>
+                    return <Button key={`category-${cat.id}`} value={cat.name} onClick={onClickCategory(cat.id)} selected={category === cat.id}/>
                 })
             }
             <br/>
@@ -137,7 +137,7 @@ const Items = () => {
                 {
                     filteredItems.map(item => {
                         let details = item.details[website];
-                        return <tr>
+                        return <tr key={`${category}-${item.id}`}>
                             <TDButton className="handle"><Icon><TiArrowUnsorted style={{position: 'relative', top: '2px'}}/></Icon></TDButton>
                             <td><Input value={item.name} onChange={onChangeItem(item, 'name')} width='200px'/></td>
                             <td><Input value={details.size} onChange={onChangeItemDetails(item, website, 'size')} width='100px'/></td>

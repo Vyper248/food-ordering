@@ -47,7 +47,11 @@ function createWindow() {
 
 ipcMain.handle('send-url', (e, url) => {
     externalWebsite.webContents.loadURL(url);
-    // console.log(externalWebsite.webContents.getURL());
+});
+
+ipcMain.handle('get-url', () => {
+  let url = externalWebsite.webContents.getURL();
+  mainApp.webContents.send('receive-url', url);
 });
 
 ipcMain.handle('start-order', () => {
