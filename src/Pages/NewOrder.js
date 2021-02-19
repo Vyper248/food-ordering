@@ -13,6 +13,7 @@ import OrderGroup from '../Components/OrderGroup';
 const NewOrder = () => {
     const dispatch = useDispatch();
     const [page, setPage] = useState(1);
+    const [downloaded, setDownloaded] = useState(false);
     const websites = useSelector(state => filterDeleted(state.websites));
     const categories = useSelector(state => filterDeleted(state.categories));
     const items = useSelector(state => filterDeleted(state.items));
@@ -58,14 +59,40 @@ const NewOrder = () => {
         updateOrderList(item)
     }
 
+    const onDownload = () => {
+        setDownloaded(true);
+
+        let csvContent = "data:text/csv;charset=utf-8,";
+        csvContent += 'Name, Size, Qty, Note\n';
+
+        orderList.forEach(item => {
+            if (item.qty !== undefined && item.qty > 0) {
+                let details = item.details[website];
+                csvContent += `${item.name},${details.size},${item.qty},${details.note}\n`;
+            }
+        });
+
+        var encodedUri = encodeURI(csvContent);
+        var link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "Food Order.csv");
+        link.click();
+    }
+
+    const onOrder = () => {
+        let currentWebsite = websites.find(obj => obj.id === website);
+        if (currentWebsite !== undefined && currentWebsite.forceDownload && downloaded === false) return;
+        goToOrder();
+    }
+
     return (
         <div style={{maxWidth: '1400px', margin: 'auto'}}>
             <Heading value='New Order'/>
 
             <Button value='Import'/>
             <Dropdown value={website} options={websites.map(obj => ({value: obj.id, display: obj.name}))} onChange={changeWebsite} width='150px'/>
-            <Button value='Download'/>
-            <Button value='Order' onClick={goToOrder}/>
+            <Button value='Download' onClick={onDownload}/>
+            <Button value='Order' onClick={onOrder}/>
 
             <Grid columns={`repeat(${pages.length}, 1fr)`} style={{gap: '10px', margin: '10px'}}>
             {
