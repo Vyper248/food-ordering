@@ -44,6 +44,7 @@ const Items = () => {
     const updateItem = (item) => dispatch({type: 'UPDATE_ITEM', payload: item});
     const reorderItem = (item) => dispatch({type: 'REORDER_ITEM', payload: item});
     const deleteItem = (id) => dispatch({type: 'REMOVE_ITEM', payload: id});
+    const setPage = (value) => dispatch({type: 'SET_PAGE', payload: value});
 
     if (categories.length === 0) return <p>You must add a category to add items to.</p>
     if (websites.length === 0) return <p>You must add a website before adding items.</p>
@@ -88,7 +89,12 @@ const Items = () => {
 
     const onChangeItemDetails = (item, website, key) => (value) => {
         let newItem = {...item};
-        newItem.details[website][key] = value;
+        let details = newItem.details[website];
+        if (details === undefined) {
+            details = {size: '', url: '', note: ''};
+            newItem.details[website] = details;
+        }
+        details[key] = value;
         updateItem(newItem);
     }
 
@@ -103,6 +109,10 @@ const Items = () => {
             let oldItem = filteredItems.find(obj => obj.id === item.id);
             if (newItem.order !== oldItem.order) reorderItem(newItem);
         });
+    }
+
+    const onClickImport = () => {
+        setPage('Import');
     }
 
     return (
@@ -120,7 +130,7 @@ const Items = () => {
                     <Dropdown options={websites.map(obj => ({value: obj.id, display: obj.name}))} onChange={onChangeWebsite} width='100px'/>
                 </InputGroup>
                 <Button value='Add New' onClick={addNewItem} width='150px'/>
-                <Button value='Import' width='150px'/>
+                <Button value='Import' width='150px' onClick={onClickImport}/>
             </Grid>
             { filteredItems.length > 0 ? <Table style={{margin: '10px auto'}}>
                 <thead>
@@ -137,6 +147,7 @@ const Items = () => {
                 {
                     filteredItems.map(item => {
                         let details = item.details[website];
+                        if (details === undefined) details = {size: '', url: '', note: ''};
                         return <tr key={`${category}-${item.id}`}>
                             <TDButton className="handle"><Icon><TiArrowUnsorted style={{position: 'relative', top: '2px'}}/></Icon></TDButton>
                             <td><Input value={item.name} onChange={onChangeItem(item, 'name')} width='200px'/></td>

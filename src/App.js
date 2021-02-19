@@ -8,6 +8,7 @@ import Home from './Pages/Home';
 import Settings from './Pages/Settings';
 import NewOrder from './Pages/NewOrder';
 import Order from './Pages/Order';
+import Import from './Pages/Import';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -23,6 +24,7 @@ function App() {
 			<Container>
 				{ page === 'Home' ? <Home/> : null }
 				{ page === 'Settings' ? <Settings/> : null }
+				{ page === 'Import' ? <Import/> : null }
 			</Container>
 			{ page === 'New Order' ? <NewOrder/> : null }
 			{ page === 'Order' ? <Order/> : null }

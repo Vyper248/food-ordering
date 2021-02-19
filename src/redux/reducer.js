@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 
 const initialState = {
     page: 'Home',
-    website: 1,
+    website: '1',
     user: null,
     message: {
         text: '',
@@ -13,7 +13,7 @@ const initialState = {
     currentItem: 0,
     orderList: [
         {
-            id: 2,
+            id: '2',
             order: 2,
             name: 'Cornflakes',
             category: 1,
@@ -53,10 +53,10 @@ const initialState = {
     ],
     items: [
         {
-            id: 1,
+            id: '1',
             order: 1,
             name: 'Weetabix',
-            category: 1,
+            category: '1',
             details: {
                 1: {
                     size: '48PK',
@@ -71,10 +71,10 @@ const initialState = {
             }
         },
         {
-            id: 2,
+            id: '2',
             order: 2,
             name: 'Cornflakes',
-            category: 1,
+            category: '1',
             details: {
                 1: {
                     size: '',
@@ -89,10 +89,10 @@ const initialState = {
             }
         },
         {
-            id: 3,
+            id: '3',
             order: 1,
             name: 'Buttery Spread',
-            category: 4,
+            category: '4',
             details: {
                 1: {
                     size: '',
@@ -107,10 +107,10 @@ const initialState = {
             }
         },
         {
-            id: 4,
+            id: '4',
             order: 1,
             name: 'Flour',
-            category: 3,
+            category: '3',
             details: {
                 1: {
                     size: '',
@@ -127,7 +127,7 @@ const initialState = {
     ],
     categories: [
         {
-            id: 1,
+            id: '1',
             name: 'Cereals',
             column: 1,
             page: 1,
@@ -135,7 +135,7 @@ const initialState = {
             order: 0,
         },
         {
-            id: 2,
+            id: '2',
             name: 'Tinned/Cans',
             column: 1,
             page: 1,
@@ -143,7 +143,7 @@ const initialState = {
             order: 1,
         },
         {
-            id: 3,
+            id: '3',
             name: 'Dry Goods',
             column: 2,
             page: 1,
@@ -151,7 +151,7 @@ const initialState = {
             order: 2,
         },
         {
-            id: 4,
+            id: '4',
             name: 'Chilled',
             column: 1,
             page: 2,
@@ -161,13 +161,13 @@ const initialState = {
     ],
     websites: [
         {
-            id: 1,
+            id: '1',
             name: 'ASDA',
             searchURL: 'https://groceries.asda.com/search/',
             forceDownload: true
         },
         {
-            id: 2,
+            id: '2',
             name: 'Tesco',
             searchURL: 'https://www.tesco.com/groceries/en-GB/search?query=',
             forceDownload: false
@@ -184,8 +184,8 @@ export const reducer = (state = initialState, action) => {
         case 'SET_USER': return {...state, user: value};
         case 'SET_MESSAGE': return {...state, message: value};
         case 'SET_FETCHING': return {...state, fetching: value};
-        case 'SET_WEBSITE': return {...state, website: parseInt(value)};
-        case 'SET_CURRENT_ITEM': return {...state, currentItem: parseInt(value)};
+        case 'SET_WEBSITE': return {...state, website: value};
+        case 'SET_CURRENT_ITEM': return {...state, currentItem: value};
 
         case 'ADD_ITEM': newArray = addObject(state.items, value); return {...state, items: newArray};
         case 'UPDATE_ITEM': newArray = replaceObject(state.items, value); return {...state, items: newArray};
@@ -200,10 +200,12 @@ export const reducer = (state = initialState, action) => {
         case 'UPDATE_CATEGORY': newArray = replaceObject(state.categories, value); return {...state, categories: newArray};
         case 'REORDER_CATEGORY': newArray = replaceObject(state.categories, value, true); return {...state, categories: newArray};
         case 'REMOVE_CATEGORY': newArray = removeObject(state.categories, value); return {...state, categories: newArray};
+        case 'IMPORT_CATEGORIES': return {...state, categories: value};
 
         case 'ADD_WEBSITE': newArray = addObject(state.websites, value); return {...state, websites: newArray};
         case 'UPDATE_WEBSITE': newArray = replaceObject(state.websites, value); return {...state, websites: newArray};
         case 'REMOVE_WEBSITE': newArray = removeObject(state.websites, value); return {...state, websites: newArray};
+        case 'IMPORT_WEBSITES': return {...state, websites: value};
 
         case 'SET_ORDER_LIST': return {...state, orderList: value};
         case 'UPDATE_ORDER_LIST': newArray = replaceObject(state.orderList, value); return {...state, orderList: newArray};
@@ -244,6 +246,6 @@ const updateURL = (arr, itemId, websiteId, url) => {
 }
 
 const addObject = (arr, object) => {
-    object.id = Number(format(new Date(),'yyyyMMddHHmmss'));    
+    object.id = format(new Date(),'yyyyMMddHHmmss');
     return [...arr, object];
 }

@@ -27,7 +27,6 @@ const NewOrder = () => {
 
     useEffect(() => {
         setOrderList(items.map(item => JSON.parse(JSON.stringify(item))));
-        console.log('setting order list');
     }, []);
 
     const onChangePage = (page) => () => {
