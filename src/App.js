@@ -5,7 +5,6 @@ import MenuBar from './Components/MenuBar';
 import Container from './Components/Container';
 
 import Home from './Pages/Home';
-import Items from './Pages/Items';
 import Settings from './Pages/Settings';
 import NewOrder from './Pages/NewOrder';
 import Order from './Pages/Order';
