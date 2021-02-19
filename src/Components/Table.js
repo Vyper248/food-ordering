@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 const Table = styled.table`
@@ -19,6 +18,10 @@ const Table = styled.table`
     & td > input {
         border: none;
         margin: 0px;
+    }
+
+    & td.input {
+        padding: 0px;
     }
 
     & .category {
