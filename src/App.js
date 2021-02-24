@@ -18,7 +18,7 @@ function App() {
 	page === 'Order' ? ipcRenderer.invoke('start-order') : ipcRenderer.invoke('end-order');
 
 	return (
-		<div className="App">
+		<div className="App" style={{paddingBottom: '50px'}}>
 			<MenuBar/>
 			<div style={{height: '32px'}}></div>
 			<Container>
