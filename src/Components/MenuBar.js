@@ -9,6 +9,7 @@ const StyledComp = styled.div`
     display: flex;
     border-bottom: 1px solid var(--menu-border-color);
     width: 100%;
+    background-color: var(--background-color);
 `;
 
 const StyledMenuItem = styled.div`
