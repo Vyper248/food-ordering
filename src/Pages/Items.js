@@ -111,10 +111,6 @@ const Items = () => {
         });
     }
 
-    const onClickImport = () => {
-        setPage('Import');
-    }
-
     return (
         <div>
             <Heading value='Items'/>
@@ -130,7 +126,6 @@ const Items = () => {
                     <Dropdown options={websites.map(obj => ({value: obj.id, display: obj.name}))} onChange={onChangeWebsite} width='100px'/>
                 </InputGroup>
                 <Button value='Add New' onClick={addNewItem} width='150px'/>
-                <Button value='Import' width='150px' onClick={onClickImport}/>
             </Grid>
             { filteredItems.length > 0 ? <Table style={{margin: '10px auto'}}>
                 <thead>

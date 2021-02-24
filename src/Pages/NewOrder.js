@@ -20,6 +20,7 @@ const NewOrder = () => {
     const orderList = useSelector(state => state.orderList);
     const website = useSelector(state => state.website);
 
+    const setAppPage = (value) => dispatch({type: 'SET_PAGE', payload: value});
     const changeWebsite = (value) => dispatch({type: 'SET_WEBSITE', payload: value});
     const setOrderList = (value) => dispatch({type: 'SET_ORDER_LIST', payload: value});
     const updateOrderList = (value) => dispatch({type: 'UPDATE_ORDER_LIST', payload: value});
@@ -31,6 +32,10 @@ const NewOrder = () => {
 
     const onChangePage = (page) => () => {
         setPage(page);
+    }
+
+    const onClickImport = () => {
+        setAppPage('Import');
     }
 
     //get page numbers
@@ -58,6 +63,10 @@ const NewOrder = () => {
         updateOrderList(item)
     }
 
+    const parseCommas = (string) => {
+        return string.replace(/,/g, ' ');
+    }
+
     const onDownload = () => {
         setDownloaded(true);
 
@@ -67,12 +76,12 @@ const NewOrder = () => {
         orderList.forEach(item => {
             if (item.qty !== undefined && item.qty > 0) {
                 let details = item.details[website];
-                csvContent += `${item.name},${details.size},${item.qty},${details.note}\n`;
+                csvContent += `${parseCommas(item.name)},${parseCommas(details.size)},${item.qty},${parseCommas(details.note)}\n`;
             }
         });
 
-        var encodedUri = encodeURI(csvContent);
-        var link = document.createElement("a");
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
         link.setAttribute("download", "Food Order.csv");
         link.click();
@@ -88,7 +97,7 @@ const NewOrder = () => {
         <div style={{maxWidth: '1400px', margin: 'auto'}}>
             <Heading value='New Order'/>
 
-            <Button value='Import'/>
+            <Button value='Import' onClick={onClickImport}/>
             <Dropdown value={website} options={websites.map(obj => ({value: obj.id, display: obj.name}))} onChange={changeWebsite} width='150px'/>
             <Button value='Download' onClick={onDownload}/>
             <Button value='Order' onClick={onOrder}/>

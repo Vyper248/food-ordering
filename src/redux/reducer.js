@@ -195,6 +195,7 @@ export const reducer = (state = initialState, action) => {
                 let itemArray = updateURL(state.items, state.currentItem, state.website, value); 
                 let orderArray = updateURL(state.orderList, state.currentItem, state.website, value); 
                 return {...state, items: itemArray, orderList: orderArray};
+        case 'IMPORT_ITEMS': return {...state, items: value};
 
         case 'ADD_CATEGORY': newArray = addObject(state.categories, value); return {...state, categories: newArray};
         case 'UPDATE_CATEGORY': newArray = replaceObject(state.categories, value); return {...state, categories: newArray};
