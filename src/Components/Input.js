@@ -42,4 +42,11 @@ const Input = ({value, onChange=()=>{}, useBlur=false, align='center', ...rest})
     );
 }
 
-export default Input;
+const equalityCheck = (prevProps, nextProps) => {
+    if (prevProps.value === nextProps.value) {
+        return true;
+    }
+    return false;
+}
+
+export default React.memo(Input, equalityCheck);
