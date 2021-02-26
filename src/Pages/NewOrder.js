@@ -69,6 +69,7 @@ const NewOrder = () => {
         orderList.forEach(item => {
             if (item.qty !== undefined && item.qty > 0) {
                 let details = item.details[website];
+                if (details === undefined) details = {size: '', note: '', url: ''};
                 csvContent += `${parseCommas(item.name)},${parseCommas(details.size)},${item.qty},${parseCommas(details.note)}\n`;
             }
         });
@@ -85,8 +86,6 @@ const NewOrder = () => {
         if (currentWebsite !== undefined && currentWebsite.forceDownload && downloaded === false) return;
         goToOrder();
     }
-
-    // console.log('Rendering New Order');
 
     return (
         <div style={{maxWidth: '1400px', margin: 'auto'}}>
@@ -112,7 +111,7 @@ const NewOrder = () => {
                     return <Table key={`order-table-${key}`} style={{width: '100%'}}>
                         <thead>
                             <tr>
-                                <td>Name</td>
+                                <td style={{width: '300px'}}>Name</td>
                                 <td>Size</td>
                                 <td>Qty</td>
                                 <td>Note</td>
