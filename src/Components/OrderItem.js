@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import Input from './Input';
 
-const OrderItem = ({item, loadUrl=()=>{}, onChangeItem, empty}) => {
+const OrderItem = ({itemString, loadUrl=()=>{}, onChangeItem, empty}) => {
+    let item = JSON.parse(itemString);
     const dispatch = useDispatch();
     const websites = useSelector(state => state.websites);
     const website = useSelector(state => state.website);
@@ -30,11 +31,12 @@ const OrderItem = ({item, loadUrl=()=>{}, onChangeItem, empty}) => {
     }
 
     if (onChangeItem !== undefined) {
+        // console.log('Rending tr');
         return (
             <tr>
                 <td className='input'><Input value={item.name} onChange={onChangeItem(item, 'name')}/></td>
                 <td className='input' width='150px'><Input value={details.size} onChange={onChangeItem(item, 'size')} width='150px'/></td>
-                <td className='input' width='100px'><Input type='number' value={item.qty === 0 || item.qty === undefined ? '' : item.qty} onChange={onChangeItem(item, 'qty')} width='100px' tabIndex='1'/></td>
+                <td className='input' width='100px'><Input type='number' value={isNaN(item.qty) ? '' : item.qty} onChange={onChangeItem(item, 'qty')} width='100px' tabIndex='1'/></td>
                 <td className='input'><Input value={details.note} onChange={onChangeItem(item, 'note')}/></td>
             </tr>
         );
@@ -50,4 +52,11 @@ const OrderItem = ({item, loadUrl=()=>{}, onChangeItem, empty}) => {
     );
 }
 
-export default OrderItem;
+const equalityCheck = (prevProps, nextProps) => {
+    if (prevProps.empty === nextProps.empty && prevProps.itemString === nextProps.itemString) {
+        return true;
+    }
+    return false;
+}
+
+export default React.memo(OrderItem, equalityCheck);

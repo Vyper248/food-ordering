@@ -18,6 +18,7 @@ const Table = styled.table`
     & td > input {
         border: none;
         margin: 0px;
+        text-transform: capitalize;
     }
 
     & td.input {
@@ -26,6 +27,7 @@ const Table = styled.table`
 
     & .category {
         background-color: #444;
+        height: 36px;
     }
 
     & .name {

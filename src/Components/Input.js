@@ -20,7 +20,8 @@ const StyledComp = styled.input`
 `;
 
 const Input = ({value, onChange=()=>{}, useBlur=false, align='center', ...rest}) => {
-    if (rest.type === 'number' && value === undefined) value = 0; 
+    if (rest.type === 'number' && isNaN(value)) value = 0; 
+    if (value === null) value = '';
 
     const onChangeInput = (e) => {
         let value = e.target.value;

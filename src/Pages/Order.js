@@ -35,7 +35,8 @@ const Order = () => {
                 <tbody>
                     {
                         categories.map(category => {
-                            return <OrderGroup key={`order-group-${category.id}`} category={category} orderList={itemArray} loadUrl={loadUrl} empty={empty}/>
+                            let filtered = itemArray.filter(obj => obj.category === category.id);
+                            return <OrderGroup key={`order-group-${category.id}`} title={category.name} orderList={JSON.stringify(filtered)} loadUrl={loadUrl} empty={empty}/>
                         })
                     }
                 </tbody>

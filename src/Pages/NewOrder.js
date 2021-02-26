@@ -27,7 +27,7 @@ const NewOrder = () => {
     const goToOrder = () => dispatch({type: 'SET_PAGE', payload: 'Order'});
 
     useEffect(() => {
-        setOrderList(items.map(item => JSON.parse(JSON.stringify(item))));
+        setOrderList(JSON.parse(JSON.stringify(items)));
     }, []);
 
     const onChangePage = (page) => () => {
@@ -58,6 +58,7 @@ const NewOrder = () => {
     let numberOfColumns = Object.keys(columns).length;
 
     const onChangeItem = (item, key) => (value) => {
+        if (key === 'qty' && isNaN(value)) item.qty = 0;
         if (key !== 'size' && key !== 'note') item[key] = value;
         else item.details[website][key] = value;
         updateOrderList(item)
@@ -93,6 +94,8 @@ const NewOrder = () => {
         goToOrder();
     }
 
+    // console.log('Rendering New Order');
+
     return (
         <div style={{maxWidth: '1400px', margin: 'auto'}}>
             <Heading value='New Order'/>
@@ -126,7 +129,8 @@ const NewOrder = () => {
                         <tbody>
                             {
                                 arr.map(category => {
-                                    return <OrderGroup key={`order-group-${category.id}`} category={category} orderList={orderList} onChangeItem={onChangeItem}/>;
+                                    let filtered = orderList.filter(obj => obj.category === category.id);
+                                    return <OrderGroup key={`order-group-${category.id}`} title={category.name} orderList={JSON.stringify(filtered)} onChangeItem={onChangeItem}/>;
                                 })
                             }
                         </tbody>

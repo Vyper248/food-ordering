@@ -5,7 +5,7 @@ const localStorageMiddleware = ({getState}) => {
     return (next) => (action) => {
         const result = next(action);
         
-        const ignore = ['SET_PAGE', 'SET_FETCHING'];
+        const ignore = ['SET_PAGE', 'SET_FETCHING', 'SET_MESSAGE'];
         if (ignore.includes(action.type)) return result;
 
         localStorage.setItem('foodOrderingState', JSON.stringify(getState()));
@@ -25,7 +25,7 @@ const getFromLocalStorage = () => {
     }
 }
 
-const store = createStore(reducer, applyMiddleware(localStorageMiddleware));
-// const store = createStore(reducer, getFromLocalStorage(), applyMiddleware(localStorageMiddleware));
+// const store = createStore(reducer, applyMiddleware(localStorageMiddleware));
+const store = createStore(reducer, getFromLocalStorage(), applyMiddleware(localStorageMiddleware));
 
 export default store;
