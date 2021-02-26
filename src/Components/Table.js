@@ -18,7 +18,16 @@ const Table = styled.table`
     & td > input {
         border: none;
         margin: 0px;
+        height: 100%;
         text-transform: capitalize;
+    }
+
+    & td.input .insert {
+        display: none;
+    }
+
+    & tr:hover .insert {
+        display: block;
     }
 
     & td.capitalize {
@@ -27,11 +36,13 @@ const Table = styled.table`
 
     & td.input {
         padding: 0px;
+        height: 38px;
+        position: relative;
     }
 
     & .category {
         background-color: #444;
-        height: 36px;
+        height: 38px;
     }
 
     & .name {

@@ -196,6 +196,7 @@ export const reducer = (state = initialState, action) => {
                 let orderArray = updateURL(state.orderList, state.currentItem, state.website, value); 
                 return {...state, items: itemArray, orderList: orderArray};
         case 'IMPORT_ITEMS': return {...state, items: value};
+        case 'INSERT_ITEM': newArray = insertObject(state.items, value); return {...state, items: newArray};
 
         case 'ADD_CATEGORY': newArray = addObject(state.categories, value); return {...state, categories: newArray};
         case 'UPDATE_CATEGORY': newArray = replaceObject(state.categories, value); return {...state, categories: newArray};
@@ -210,10 +211,20 @@ export const reducer = (state = initialState, action) => {
 
         case 'SET_ORDER_LIST': return {...state, orderList: value};
         case 'UPDATE_ORDER_LIST': newArray = replaceObject(state.orderList, value); return {...state, orderList: newArray};
+        case 'INSERT_ORDER_ITEM': newArray = insertObject(state.orderList, value); return {...state, orderList: newArray};
 
         case 'SYNC': return {...state, ...value, lastSync: dateValue};
         default: return state;
     }
+}
+
+const insertObject = (arr, item) => {
+    if (item.id === undefined) item.id = format(new Date(),'T');
+    let copy = [...arr];
+    let index = copy.findIndex(obj => obj.order === item.order-1 && obj.category === item.category);
+    copy.filter(obj => obj.category === item.category && obj.order >= item.order).forEach(obj => obj.order++);
+    copy.splice(index+1, 0, item);
+    return copy;
 }
 
 const removeObject = (arr, id) => {
@@ -247,6 +258,6 @@ const updateURL = (arr, itemId, websiteId, url) => {
 }
 
 const addObject = (arr, object) => {
-    object.id = format(new Date(),'yyyyMMddHHmmss');
+    object.id = format(new Date(),'T');
     return [...arr, object];
 }

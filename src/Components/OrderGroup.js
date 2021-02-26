@@ -1,24 +1,21 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 
 import { getTotalQty } from '../functions';
 
 import OrderItem from './OrderItem';
 
 const OrderGroup = ({title, category, empty, ...rest}) => {
-    //stringify to pass equality comparison so doesn't re-render if it doesn't have to
     let list = useSelector(state => {
-        let arrString = empty ? JSON.stringify(state.items.filter(obj => obj.category === category && obj.deleted === undefined))
-        : JSON.stringify(state.orderList.filter(obj => obj.category === category && obj.deleted === undefined));
+        let arrString = empty ? state.items.filter(obj => obj.category === category && obj.deleted === undefined)
+        : state.orderList.filter(obj => obj.category === category && obj.deleted === undefined);
         return arrString;
-    });
-    list = JSON.parse(list);
+    }, shallowEqual);
 
     if (list.length === 0) return null;
 
     if (empty === false && getTotalQty(list) === 0) return null;
 
-    // console.log('Rendering OrderGroup');
     return (
         <React.Fragment>
             <tr>
@@ -26,7 +23,7 @@ const OrderGroup = ({title, category, empty, ...rest}) => {
             </tr>
             {
                 list.map(item => {
-                    return <OrderItem key={`orderItem-${category}-${item.id}`} itemString={JSON.stringify(item)} empty={empty} {...rest}/>
+                    return <OrderItem key={`orderItem-${category}-${item.id}-${item.order}`} itemString={JSON.stringify(item)} empty={empty} {...rest}/>
                 })
             }
         </React.Fragment>
