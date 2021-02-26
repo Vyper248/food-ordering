@@ -18,7 +18,7 @@ const getFromLocalStorage = () => {
     let state = localStorage.getItem('foodOrderingState');
     if (state !== null) {
         state = JSON.parse(state);
-        state.currentPage = 'Home';
+        state.page = 'Home';
         state.message = {text: '', type: ''};
         state.fetching = false;
         return state;
