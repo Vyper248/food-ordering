@@ -23,8 +23,8 @@ const StyledMenuItem = styled.div`
     }
 `;
 
-const MenuItem = ({page, currentPage, onClick}) => {
-    return <StyledMenuItem onClick={onClick(page)} selected={currentPage === page ? true : false}>{page}</StyledMenuItem>;
+const MenuItem = ({page, currentPage, onClick, value=page}) => {
+    return <StyledMenuItem onClick={onClick(page)} selected={currentPage === page ? true : false}>{value}</StyledMenuItem>;
 }
 
 const MenuBar = () => {
@@ -48,13 +48,21 @@ const MenuBar = () => {
         setPage(page);
     }
 
+    if (currentPage === 'Order') {
+        return (
+            <StyledComp>
+                <MenuItem page="Home" currentPage={currentPage} onClick={onClick} value='Finish'/>
+                <div style={{flexGrow: '1'}}></div>
+                <StyledMenuItem onClick={getURL} style={{borderLeft: '1px solid var(--menu-border-color)'}}>Set URL</StyledMenuItem>
+            </StyledComp>
+        );
+    }
+
     return (
         <StyledComp>
             <MenuItem page="Home" currentPage={currentPage} onClick={onClick}/>
             <MenuItem page="New Order" currentPage={currentPage} onClick={onClick}/>
             <MenuItem page="Settings" currentPage={currentPage} onClick={onClick}/>
-            <div style={{flexGrow: '1'}}></div>
-            { currentPage === 'Order' && currentItem !== undefined ? <StyledMenuItem onClick={getURL} style={{borderLeft: '1px solid var(--menu-border-color)'}}>Set URL</StyledMenuItem> : null }
         </StyledComp>
     );
 }
