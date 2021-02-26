@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { getTotalQty } from '../functions';
 
@@ -7,10 +7,11 @@ import OrderItem from './OrderItem';
 
 const OrderGroup = ({title, category, empty, ...rest}) => {
     let list = useSelector(state => {
-        let arrString = empty ? state.items.filter(obj => obj.category === category && obj.deleted === undefined)
-        : state.orderList.filter(obj => obj.category === category && obj.deleted === undefined);
+        let arrString = empty ? JSON.stringify(state.items.filter(obj => obj.category === category && obj.deleted === undefined))
+        : JSON.stringify(state.orderList.filter(obj => obj.category === category && obj.deleted === undefined));
         return arrString;
-    }, shallowEqual);
+    });
+    list = JSON.parse(list);
 
     if (list.length === 0) return null;
 
