@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { filterDeleted, getTotalQty } from '../functions';
 
@@ -11,15 +11,12 @@ const { ipcRenderer } = window.require('electron');
 const Order = () => {
     const orderList = useSelector(state => state.orderList);
     const categories = useSelector(state => filterDeleted(state.categories));
-    const items = useSelector(state => filterDeleted(state.items));
 
     const empty = orderList.length === 0 || getTotalQty(orderList) === 0 ? true : false;
 
     const loadUrl = (url) => () => {
 		ipcRenderer.invoke('send-url', url);
 	}
-
-    const itemArray = empty ? items : orderList;
 
     return (
         <div>
@@ -35,8 +32,7 @@ const Order = () => {
                 <tbody>
                     {
                         categories.map(category => {
-                            let filtered = itemArray.filter(obj => obj.category === category.id);
-                            return <OrderGroup key={`order-group-${category.id}`} title={category.name} orderList={JSON.stringify(filtered)} loadUrl={loadUrl} empty={empty}/>
+                            return <OrderGroup key={`order-group-${category.id}`} title={category.name} category={category.id} loadUrl={loadUrl} empty={empty}/>
                         })
                     }
                 </tbody>

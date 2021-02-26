@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { filterDeleted } from '../functions';
+
 import Input from './Input';
 
-const OrderItem = ({itemString, loadUrl=()=>{}, onChangeItem, empty}) => {
+const OrderItem = ({itemString, loadUrl=()=>{}, allowEdit, empty}) => {
     let item = JSON.parse(itemString);
     const dispatch = useDispatch();
-    const websites = useSelector(state => state.websites);
+    const websites = useSelector(state => filterDeleted(state.websites));
     const website = useSelector(state => state.website);
     const setCurrentItem = (value) => dispatch({type: 'SET_CURRENT_ITEM', payload: value});
+    const updateOrderList = (value) => dispatch({type: 'UPDATE_ORDER_LIST', payload: value});
     const [done, setDone] = useState(false);
 
     let currentWebsite = websites.find(obj => obj.id === website);
@@ -24,13 +27,20 @@ const OrderItem = ({itemString, loadUrl=()=>{}, onChangeItem, empty}) => {
 
     if (empty === false && (item.qty === undefined || item.qty === 0)) return null;
 
+    const onChangeItem = (item, key) => (value) => {
+        if (key === 'qty' && isNaN(value)) item.qty = 0;
+        if (key !== 'size' && key !== 'note') item[key] = value;
+        else item.details[website][key] = value;
+        updateOrderList(item)
+    }
+
     const onClickItem = () => {
         loadUrl(url)();
         setDone(true);
         setCurrentItem(item.id);
     }
 
-    if (onChangeItem !== undefined) {
+    if (allowEdit) {
         // console.log('Rending tr');
         return (
             <tr>
@@ -44,7 +54,7 @@ const OrderItem = ({itemString, loadUrl=()=>{}, onChangeItem, empty}) => {
 
     return (
         <tr>
-            <td className={done ? 'name done' : 'name'} onClick={onClickItem}>{item.name}</td>
+            <td className={done ? 'name capitalize done' : 'name capitalize'} onClick={onClickItem}>{item.name}</td>
             <td className='size'>{details.size}</td>
             { item.qty !== undefined ? <td className='qty'>{item.qty}</td> : null }
             <td className='note'>{details.note}</td>

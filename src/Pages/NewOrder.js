@@ -23,7 +23,6 @@ const NewOrder = () => {
     const setAppPage = (value) => dispatch({type: 'SET_PAGE', payload: value});
     const changeWebsite = (value) => dispatch({type: 'SET_WEBSITE', payload: value});
     const setOrderList = (value) => dispatch({type: 'SET_ORDER_LIST', payload: value});
-    const updateOrderList = (value) => dispatch({type: 'UPDATE_ORDER_LIST', payload: value});
     const goToOrder = () => dispatch({type: 'SET_PAGE', payload: 'Order'});
 
     useEffect(() => {
@@ -56,13 +55,6 @@ const NewOrder = () => {
         columns[category.column].push(category);
     });
     let numberOfColumns = Object.keys(columns).length;
-
-    const onChangeItem = (item, key) => (value) => {
-        if (key === 'qty' && isNaN(value)) item.qty = 0;
-        if (key !== 'size' && key !== 'note') item[key] = value;
-        else item.details[website][key] = value;
-        updateOrderList(item)
-    }
 
     const parseCommas = (string) => {
         return string.replace(/,/g, ' ');
@@ -129,8 +121,7 @@ const NewOrder = () => {
                         <tbody>
                             {
                                 arr.map(category => {
-                                    let filtered = orderList.filter(obj => obj.category === category.id);
-                                    return <OrderGroup key={`order-group-${category.id}`} title={category.name} orderList={JSON.stringify(filtered)} onChangeItem={onChangeItem}/>;
+                                    return <OrderGroup key={`order-group-${category.id}`} title={category.name} category={category.id} allowEdit={true}/>;
                                 })
                             }
                         </tbody>

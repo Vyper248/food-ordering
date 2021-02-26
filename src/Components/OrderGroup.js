@@ -1,11 +1,19 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import { getTotalQty } from '../functions';
 
 import OrderItem from './OrderItem';
 
-const OrderGroup = ({title, orderList, empty, ...rest}) => {
-    let list = JSON.parse(orderList);
+const OrderGroup = ({title, category, empty, ...rest}) => {
+    //stringify to pass equality comparison so doesn't re-render if it doesn't have to
+    let list = useSelector(state => {
+        let arrString = empty ? JSON.stringify(state.items.filter(obj => obj.category === category && obj.deleted === undefined))
+        : JSON.stringify(state.orderList.filter(obj => obj.category === category && obj.deleted === undefined));
+        return arrString;
+    });
+    list = JSON.parse(list);
+
     if (list.length === 0) return null;
 
     if (empty === false && getTotalQty(list) === 0) return null;
@@ -18,7 +26,7 @@ const OrderGroup = ({title, orderList, empty, ...rest}) => {
             </tr>
             {
                 list.map(item => {
-                    return <OrderItem key={`orderItem-${title}-${item.name}-${item.id}`} itemString={JSON.stringify(item)} empty={empty} {...rest}/>
+                    return <OrderItem key={`orderItem-${category}-${item.id}`} itemString={JSON.stringify(item)} empty={empty} {...rest}/>
                 })
             }
         </React.Fragment>
@@ -26,7 +34,7 @@ const OrderGroup = ({title, orderList, empty, ...rest}) => {
 }
 
 const equalityCheck = (prevProps, nextProps) => {
-    if (prevProps.title === nextProps.title && prevProps.orderList === nextProps.orderList) {
+    if (prevProps.title === nextProps.title && prevProps.category === nextProps.category && prevProps.empty === nextProps.empty) {
         return true;
     }
     return false;

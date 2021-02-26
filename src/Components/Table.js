@@ -21,6 +21,10 @@ const Table = styled.table`
         text-transform: capitalize;
     }
 
+    & td.capitalize {
+        text-transform: capitalize;
+    }
+
     & td.input {
         padding: 0px;
     }
