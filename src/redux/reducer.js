@@ -242,7 +242,7 @@ const replaceObject = (arr, object, order=false) => {
     if (index === -1) return arr;
     object.updated = Number(format(new Date(),'yyyyMMddHHmmss'));
     copy.splice(index,1,object);
-    if (order) copy.sort((a,b) => a.order - b.order);
+    // if (order) copy.sort((a,b) => a.order - b.order);
     return copy;
 }
 

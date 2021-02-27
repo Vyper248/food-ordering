@@ -49,7 +49,7 @@ const Items = () => {
     if (categories.length === 0) return <p>You must add a category to add items to.</p>
     if (websites.length === 0) return <p>You must add a website before adding items.</p>
     
-    const filteredItems = items.filter(item => item.category === category);
+    const filteredItems = items.filter(item => item.category === category).sort((a, b) => a.order - b.order);
 
     const onClickCategory = (id) => () => {
         setCategory(id);
@@ -107,7 +107,7 @@ const Items = () => {
             let newItem = {...item};
             newItem.order = i;
             let oldItem = filteredItems.find(obj => obj.id === item.id);
-            if (newItem.order !== oldItem.order) reorderItem(newItem);
+            reorderItem(newItem);
         });
     }
 
@@ -147,7 +147,7 @@ const Items = () => {
                             <TDButton className="handle"><Icon><TiArrowUnsorted style={{position: 'relative', top: '2px'}}/></Icon></TDButton>
                             <td><Input value={item.name} onChange={onChangeItem(item, 'name')} width='200px'/></td>
                             <td><Input value={details.size} onChange={onChangeItemDetails(item, website, 'size')} width='100px'/></td>
-                            <td><Input value={details.url} onChange={onChangeItemDetails(item, website, 'size')} width='300px'/></td>
+                            <td><Input value={details.url} onChange={onChangeItemDetails(item, website, 'url')} width='300px'/></td>
                             <td><Input value={details.note} onChange={onChangeItemDetails(item, website, 'note')} width='250px'/></td>
                             <TDButton><Icon color='red' onClick={onDeleteItem(item)}><FaTrash/></Icon></TDButton>
                         </tr>;

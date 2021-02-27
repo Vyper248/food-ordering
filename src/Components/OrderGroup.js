@@ -12,6 +12,7 @@ const OrderGroup = ({title, category, empty, ...rest}) => {
         return arrString;
     });
     list = JSON.parse(list);
+    list.sort((a,b) => a.order - b.order);
 
     if (list.length === 0) return null;
 

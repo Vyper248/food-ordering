@@ -22,7 +22,7 @@ function createWindow() {
     mainApp = new BrowserView({webPreferences: { nodeIntegration: true }});
     containerWindow.addBrowserView(mainApp);
     mainApp.setBounds({x: 0, y: 0, width: 1600, height: 1000});
-    mainApp.webContents.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
+    mainApp.webContents.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '/../build/index.html')}`);
     mainApp.setAutoResize({width: true, height: false});
     if (isDev) mainApp.webContents.openDevTools({mode:'undocked'});
 
