@@ -10,6 +10,7 @@ const StyledComp = styled.div`
     border-bottom: 1px solid var(--menu-border-color);
     width: 100%;
     background-color: var(--background-color);
+    z-index: 10;
 `;
 
 const StyledMenuItem = styled.div`

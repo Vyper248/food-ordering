@@ -33,6 +33,7 @@ const OrderItem = ({itemString, loadUrl=()=>{}, allowEdit, empty}) => {
     const addItem = (value) => dispatch({type: 'INSERT_ITEM', payload: value});
     const [done, setDone] = useState(false);
     const [changed, setChanged] = useState(false);
+    const [original, setOriginal] = useState(itemString);
 
     let currentWebsite = websites.find(obj => obj.id === website);
     if (currentWebsite === undefined && websites.length === 0) return null;
@@ -47,12 +48,18 @@ const OrderItem = ({itemString, loadUrl=()=>{}, allowEdit, empty}) => {
 
     if (empty === false && (item.qty === undefined || item.qty === 0)) return null;
 
+    const compareWithOriginal = () => {
+        let originalObj = JSON.parse(original);
+        return originalObj.name === item.name && JSON.stringify(originalObj.details) === JSON.stringify(item.details)
+    }
+
     const onChangeItem = (key) => (value) => {
         if (key === 'qty' && isNaN(value)) item.qty = 0;
         if (key !== 'size' && key !== 'note') item[key] = value;
         else item.details[website][key] = value;
         updateOrderList(item);
-        if (key !== 'qty') setChanged(true);
+        if (compareWithOriginal() === false) setChanged(true);
+        else setChanged(false);
     }
 
     const onSaveItem = () => {
@@ -98,7 +105,7 @@ const OrderItem = ({itemString, loadUrl=()=>{}, allowEdit, empty}) => {
                         { changed ? <SideButton onClick={onSaveItem}><FaRegSave/></SideButton> : null }
                         <SideButton className='insert' onClick={onInsertItem}><FaPlus/></SideButton>
                     </div>
-                        <Input value={item.name} onChange={onChangeItem('name')}/>
+                        <Input value={item.name} onChange={onChangeItem('name')} width='100%'/>
                 </td>
                 <td className='input' width='150px'><Input value={details.size} onChange={onChangeItem('size')} width='150px'/></td>
                 <td className='input' width='100px'><Input type='number' value={isNaN(item.qty) ? '' : item.qty} onChange={onChangeItem('qty')} width='100px' tabIndex='1'/></td>
