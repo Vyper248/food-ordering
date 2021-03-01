@@ -30,6 +30,7 @@ const Order = () => {
                     </tr>
                 </thead>
                 <tbody>
+                    <OrderGroup title={'Other'} category={'0'} loadUrl={loadUrl} empty={empty}/>
                     {
                         categories.map(category => {
                             return <OrderGroup key={`order-group-${category.id}`} title={category.name} category={category.id} loadUrl={loadUrl} empty={empty}/>

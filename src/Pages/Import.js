@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { filterDeleted } from '../functions';
+
 import Input from '../Components/Input';
 import Heading from '../Components/Heading';
 import Button from '../Components/Button';
@@ -10,7 +12,7 @@ const Import = () => {
     const dispatch = useDispatch();
 
     const [importData, setImportData] = useState([]);
-    const items = useSelector(state => state.items);
+    const items = useSelector(state => filterDeleted(state.items));
     const categories = useSelector(state => state.categories);
     const website = useSelector(state => state.website);
 
@@ -27,7 +29,7 @@ const Import = () => {
                 let arr = [];
 
                 let lines = reader.result.split('\n').map(line => line.split(','));
-                let currentCategory = '';
+                let currentCategory = '0';
 
                 for (let i = 1; i < lines.length; i++) {
                     let lineArr = lines[i];
@@ -41,7 +43,7 @@ const Import = () => {
                         heading = true;
                         let categoryObj = categories.find(obj => obj.name.toLowerCase() === name.toLowerCase());
                         if (categoryObj !== undefined) currentCategory = categoryObj.id;
-                        else currentCategory = categories.length > 0 ? categories[0].id : 0;
+                        else currentCategory = '0';
                         continue;
                     }
 
@@ -75,7 +77,6 @@ const Import = () => {
     const onImport = () => {
         setOrderList(importData);
         setPage('Order');
-
     }
 
     return (
