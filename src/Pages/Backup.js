@@ -20,9 +20,9 @@ const Backup = () => {
     const importCategories = (value) => dispatch({type: 'IMPORT_CATEGORIES', payload: value});
     const importItems = (value) => dispatch({type: 'IMPORT_ITEMS', payload: value});
     const importAll = (obj) => {
-        importWebsites(obj.websites);
-        importCategories(obj.categories);
-        importItems(obj.items);
+        if (obj.websites !== undefined) importWebsites(obj.websites);
+        if (obj.categories !== undefined) importCategories(obj.categories);
+        if (obj.items !== undefined) importItems(obj.items);
     }
 
     const onFileChange = (e) => {
@@ -105,8 +105,13 @@ const Backup = () => {
     return (
         <div>
             <Heading value='Backup'/>
+            <p>This will download a full backup, including Websites, Categories and Items, in JSON format.</p>
             <Button value='Backup as JSON' onClick={downloadJson}/>
             <Heading value='Restore'/>
+            <p>This will accept a JSON formatted file, which should be an object with 1-3 keys (websites, categories, items), each with an array of objects. This will overwrite the current data. Ideally this should be a backup that was downloaded from this app. If you create your own, make sure the format is correct otherwise it may cause issues.</p>
+            <p>A CSV file will also be accepted for the Website and Categories, but not for Items. The following headings should be used:<br/>
+            Categories: id, order, name, column, page.<br/>
+            Websites: id, name, searchURL, forceDownload.</p>
             <input type='file' onChange={onFileChange}/>
 
             { importData.length > 0 && type.length > 0 ? <Button value={`Import ${type}`} onClick={onImport}/> : null }
