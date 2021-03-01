@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { format } from 'date-fns';
 
 import Heading from '../Components/Heading';
 import Button from '../Components/Button';
@@ -86,6 +87,9 @@ const Backup = () => {
         if (type === 'Categories') importCategories(importData);
         if (type === 'Items') importItems(importData);
         if (type === 'All') importAll(importData);
+
+        setImportData({});
+        setType('');
     }
 
     const downloadJson = () => {
@@ -94,7 +98,7 @@ const Backup = () => {
 
         const link = document.createElement("a");
         link.setAttribute("href", dataStr);
-        link.setAttribute("download", "Food Order Backup.json");
+        link.setAttribute("download", `Food Order Backup - ${format(new Date(),'yyyy-MM-dd')}.json`);
         link.click();
     }
 

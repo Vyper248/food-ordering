@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { format } from 'date-fns';
 
 import { filterDeleted, getTotalQty } from '../functions';
 
@@ -81,7 +82,7 @@ const NewOrder = () => {
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "Food Order.csv");
+        link.setAttribute("download", `Food Order - ${format(new Date(),'yyyy-MM-dd')}.csv`);
         link.click();
     }
 
