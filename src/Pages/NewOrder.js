@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { filterDeleted } from '../functions';
+import { filterDeleted, getTotalQty } from '../functions';
 
 import Heading from '../Components/Heading';
 import Dropdown from '../Components/Dropdown';
@@ -66,12 +66,16 @@ const NewOrder = () => {
         let csvContent = "data:text/csv;charset=utf-8,";
         csvContent += 'Name, Size, Qty, Note\n';
 
-        orderList.forEach(item => {
-            if (item.qty !== undefined && item.qty > 0) {
-                let details = item.details[website];
-                if (details === undefined) details = {size: '', note: '', url: ''};
-                csvContent += `${parseCommas(item.name)},${parseCommas(details.size)},${item.qty},${parseCommas(details.note)}\n`;
-            }
+        categories.forEach(category => {
+            let filtered = orderList.filter(obj => obj.category === category.id);
+            if (getTotalQty(filtered) > 0) csvContent += `${category.name},,,\n`;
+            filtered.forEach(item => {
+                if (item.qty !== undefined && item.qty > 0) {
+                    let details = item.details[website];
+                    if (details === undefined) details = {size: '', note: '', url: ''};
+                    csvContent += `${parseCommas(item.name)},${parseCommas(details.size)},${item.qty},${parseCommas(details.note)}\n`;
+                }
+            });
         });
 
         const encodedUri = encodeURI(csvContent);
