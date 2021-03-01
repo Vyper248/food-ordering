@@ -4,11 +4,12 @@ import styled from 'styled-components';
 const StyledComp = styled.h4`
     font-size: 1.2em;
     margin: 10px;
+    ${props => props.size ? `font-size: ${props.size}` : ''};
 `;
 
-const Heading = ({value}) => {
+const Heading = ({value, ...rest}) => {
     return (
-        <StyledComp>{value}</StyledComp>
+        <StyledComp {...rest}>{value}</StyledComp>
     );
 }
 
