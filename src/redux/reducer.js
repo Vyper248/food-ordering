@@ -5,160 +5,15 @@ const initialState = {
     website: '1',
     user: null,
     message: {
-        text: '',
-        type: ''
+        text: 'Hello',
+        type: 'error'
     },
     lastSync: 0,
     fetching: false,
     currentItem: 0,
-    orderList: [
-        {
-            id: '2',
-            order: 2,
-            name: 'Cornflakes',
-            category: 1,
-            qty: 2,
-            details: {
-                1: {
-                    size: '',
-                    url: 'https://groceries.asda.com/product/cornflakes-crunchy-nut/kelloggs-corn-flakes-cereal/1000121939238',
-                    note: ''
-                },
-                2: {
-                    size: '',
-                    url: '',
-                    note: ''
-                }
-            }
-        },
-        {
-            name: 'Tortellini',
-            id: undefined,
-            order: 3,
-            category: 1,
-            qty: 4,
-            details: {
-                1: {
-                    size: '',
-                    url: '',
-                    note: ''
-                },
-                2: {
-                    size: '',
-                    url: '',
-                    note: ''
-                }
-            }
-        }
-    ],
-    items: [
-        {
-            id: '1',
-            order: 1,
-            name: 'Weetabix',
-            category: '1',
-            details: {
-                1: {
-                    size: '48PK',
-                    url: 'https://groceries.asda.com/product/wheat-biscuits-mini-wheats/asda-wheat-bisks/21056',
-                    note: 'Cheap Ones!'
-                },
-                2: {
-                    size: '24PK',
-                    url: '',
-                    note: ''
-                }
-            }
-        },
-        {
-            id: '2',
-            order: 2,
-            name: 'Cornflakes',
-            category: '1',
-            details: {
-                1: {
-                    size: '',
-                    url: 'https://groceries.asda.com/product/cornflakes-crunchy-nut/kelloggs-corn-flakes-cereal/1000121939238',
-                    note: ''
-                },
-                2: {
-                    size: '',
-                    url: '',
-                    note: ''
-                }
-            }
-        },
-        {
-            id: '3',
-            order: 1,
-            name: 'Buttery Spread',
-            category: '4',
-            details: {
-                1: {
-                    size: '',
-                    url: '',
-                    note: ''
-                },
-                2: {
-                    size: '',
-                    url: '',
-                    note: ''
-                }
-            }
-        },
-        {
-            id: '4',
-            order: 1,
-            name: 'Flour',
-            category: '3',
-            details: {
-                1: {
-                    size: '',
-                    url: '',
-                    note: ''
-                },
-                2: {
-                    size: '',
-                    url: '',
-                    note: ''
-                }
-            }
-        },
-    ],
-    categories: [
-        {
-            id: '1',
-            name: 'Cereals',
-            column: 1,
-            page: 1,
-            rowsAfter: 1,
-            order: 0,
-        },
-        {
-            id: '2',
-            name: 'Tinned/Cans',
-            column: 1,
-            page: 1,
-            rowsAfter: 1,
-            order: 1,
-        },
-        {
-            id: '3',
-            name: 'Dry Goods',
-            column: 2,
-            page: 1,
-            rowsAfter: 1,
-            order: 2,
-        },
-        {
-            id: '4',
-            name: 'Chilled',
-            column: 1,
-            page: 2,
-            rowsAfter: 1,
-            order: 3,
-        },
-    ],
+    orderList: [],
+    items: [],
+    categories: [],
     websites: [
         {
             id: '1',
@@ -180,7 +35,7 @@ export const reducer = (state = initialState, action) => {
     let dateValue = Number(format(new Date(),'yyyyMMddHHmmss'));
     let newArray;
     switch(action.type) {
-        case 'SET_PAGE': return {...state, page: value};
+        case 'SET_PAGE': return {...state, page: value, message: {text: '', type: ''}};
         case 'SET_USER': return {...state, user: value};
         case 'SET_MESSAGE': return {...state, message: value};
         case 'SET_FETCHING': return {...state, fetching: value};

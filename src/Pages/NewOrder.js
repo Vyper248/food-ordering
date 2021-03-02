@@ -25,6 +25,7 @@ const NewOrder = () => {
     const changeWebsite = (value) => dispatch({type: 'SET_WEBSITE', payload: value});
     const setOrderList = (value) => dispatch({type: 'SET_ORDER_LIST', payload: value});
     const goToOrder = () => dispatch({type: 'SET_PAGE', payload: 'Order'});
+    const setMessage = (value) => dispatch({type: 'SET_MESSAGE', payload: value});
 
     useEffect(() => {
         setOrderList(JSON.parse(JSON.stringify(items)));
@@ -88,7 +89,10 @@ const NewOrder = () => {
 
     const onOrder = () => {
         let currentWebsite = websites.find(obj => obj.id === website);
-        if (currentWebsite !== undefined && currentWebsite.forceDownload && downloaded === false) return;
+        if (currentWebsite !== undefined && currentWebsite.forceDownload && downloaded === false) {
+            setMessage({text: 'Please download the order first.', type: 'error'});
+            return;
+        }
         goToOrder();
     }
 

@@ -70,6 +70,10 @@ ipcMain.handle('end-order', () => {
     ordering = false;
 });
 
+ipcMain.handle('print', () => {
+    mainApp.webContents.print();
+});
+
 app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {

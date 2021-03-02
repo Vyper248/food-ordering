@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 
+import HeaderMessage from './HeaderMessage';
+
 const { ipcRenderer } = window.require('electron');
 
 const StyledComp = styled.div`
@@ -32,6 +34,7 @@ const MenuBar = () => {
     const dispatch = useDispatch();
     const currentPage = useSelector(state => state.page);
     const currentItem = useSelector(state => state.currentItem);
+    const message = useSelector(state => state.message);
 
     const setPage = (value) => dispatch({type: 'SET_PAGE', payload: value});
 
@@ -49,6 +52,10 @@ const MenuBar = () => {
         setPage(page);
     }
 
+    const onPrint = () => {
+        ipcRenderer.invoke('print');
+    }
+
     if (currentPage === 'Order') {
         return (
             <StyledComp>
@@ -61,6 +68,7 @@ const MenuBar = () => {
 
     return (
         <StyledComp>
+            { message.text.length > 0 ? <HeaderMessage {...message}/> : null }
             <MenuItem page="Home" currentPage={currentPage} onClick={onClick}/>
             <MenuItem page="New Order" currentPage={currentPage} onClick={onClick}/>
             <MenuItem page="Settings" currentPage={currentPage} onClick={onClick}/>

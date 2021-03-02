@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import Heading from '../Components/Heading';
 import Button from '../Components/Button';
@@ -10,10 +11,14 @@ import Sync from './Sync';
 import Backup from './Backup';
 
 const Settings = () => {
+    const dispatch = useDispatch();
     const [page, setPage] = useState('Items');
+    
+    const closeMessage = () => dispatch({type: 'SET_MESSAGE', payload: {text: '', type: ''}});
 
     const onChangePage = (page) => () => {
         setPage(page);
+        closeMessage();
     }
 
     return (

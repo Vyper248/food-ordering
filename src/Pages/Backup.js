@@ -16,6 +16,7 @@ const Backup = () => {
     const [importHeadings, setImportHeadings] = useState([]);
     const [type, setType] = useState('');
 
+    const setMessage = (value) => dispatch({type: 'SET_MESSAGE', payload: value});
     const importWebsites = (value) => dispatch({type: 'IMPORT_WEBSITES', payload: value});
     const importCategories = (value) => dispatch({type: 'IMPORT_CATEGORIES', payload: value});
     const importItems = (value) => dispatch({type: 'IMPORT_ITEMS', payload: value});
@@ -90,6 +91,7 @@ const Backup = () => {
 
         setImportData({});
         setType('');
+        setMessage({text: 'Import Complete', type: 'success'});
     }
 
     const downloadJson = () => {
@@ -117,26 +119,24 @@ const Backup = () => {
             { importData.length > 0 && type.length > 0 ? <Button value={`Import ${type}`} onClick={onImport}/> : null }
             { Object.keys(importData).length > 0 && type.length > 0 ? <Button value={`Import Mulitple`} onClick={onImport}/> : null }
 
-            <Table style={{margin: 'auto'}}>
+            { Array.isArray(importData) ? <Table style={{margin: 'auto'}}>
                 <thead>
                     <tr>
-                        {
-                            Array.isArray(importData) ? importHeadings.map(heading => <td>{heading}</td>) : null
-                        }
+                        { importHeadings.map(heading => <td key={`import-heading-${heading}`}>{heading}</td>) }
                     </tr>
                 </thead>
                 <tbody>
                 {
-                    Array.isArray(importData) ? importData.map(obj => {
-                        return <tr>
+                    importData.map(obj => {
+                        return <tr key={`import-data-${obj.id}`}>
                             {
-                                importHeadings.map(heading => <td>{obj[heading]}</td>)
+                                importHeadings.map(heading => <td key={`import-data-${heading}-${obj.id}`}>{obj[heading]}</td>)
                             }
                         </tr>
-                    }) : null
+                    })
                 }
                 </tbody>
-            </Table>
+            </Table> : null }
         </div>
     );
 }
