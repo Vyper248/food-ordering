@@ -71,6 +71,7 @@ const MenuBar = () => {
             { message.text.length > 0 ? <HeaderMessage {...message}/> : null }
             <MenuItem page="Home" currentPage={currentPage} onClick={onClick}/>
             <MenuItem page="New Order" currentPage={currentPage} onClick={onClick}/>
+            <MenuItem page="Template" currentPage={currentPage} onClick={onClick}/>
             <MenuItem page="Settings" currentPage={currentPage} onClick={onClick}/>
         </StyledComp>
     );

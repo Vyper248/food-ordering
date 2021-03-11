@@ -9,6 +9,7 @@ import Settings from './Pages/Settings';
 import NewOrder from './Pages/NewOrder';
 import Order from './Pages/Order';
 import Import from './Pages/Import';
+import Template from './Pages/Template';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -28,6 +29,7 @@ function App() {
 			</Container>
 			{ page === 'New Order' ? <NewOrder/> : null }
 			{ page === 'Order' ? <Order/> : null }
+			{ page === 'Template' ? <Template/> : null }
 		</div>
 	);
 }
