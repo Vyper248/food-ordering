@@ -6,13 +6,13 @@ const Table = styled.table`
     & td {
         padding: 5px;
         text-align: center;
-        border: 1px solid var(--menu-border-color);
+        border: 1px solid var(--item-border-color);
     }
 
     & th {
         background-color: #222;
         padding: 5px;
-        border: 1px solid var(--menu-border-color);
+        border: 1px solid var(--item-border-color);
     }
 
     & td > input {
@@ -68,6 +68,11 @@ const Table = styled.table`
 
     & .note {
         width: 140px
+    }
+
+    & .order-row:focus-within td {
+        border-top: 2px solid var(--button-border-color);
+        border-bottom: 2px solid var(--button-border-color);
     }
 `;
 

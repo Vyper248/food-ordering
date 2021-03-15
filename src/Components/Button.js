@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledComp = styled.button`
-    background-color: ${props => props.bgColor.length > 0 ? props.bgColor : 'var(--background-color);'};
-    color: var(--text-color);
-    border: 1px solid var(--menu-border-color);
+    background-color: ${props => props.bgColor.length > 0 ? props.bgColor : 'var(--button-bg-color);'};
+    color: var(--button-text-color);
+    border: 1px solid var(--button-border-color);
     border-radius: 5px;
     margin: 5px;
     padding: 0px 10px;
@@ -12,7 +12,7 @@ const StyledComp = styled.button`
     ${props => props.width ? `width: ${props.width}` : ''};
 
     &:hover {
-        background-color: var(--menu-selected-color);
+        background-color: var(--button-highlight-color);
         cursor: pointer;
     }
 
@@ -21,7 +21,7 @@ const StyledComp = styled.button`
     }
 
     &.selected {
-        background-color: var(--menu-selected-color);
+        background-color: var(--button-highlight-color);
     }
 `;
 

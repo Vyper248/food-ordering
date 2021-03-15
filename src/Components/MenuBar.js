@@ -11,7 +11,7 @@ const StyledComp = styled.div`
     display: flex;
     border-bottom: 1px solid var(--menu-border-color);
     width: 100%;
-    background-color: var(--background-color);
+    background-color: var(--menu-background-color);
     z-index: 10;
 `;
 

@@ -11,12 +11,12 @@ const SideButton = styled.div`
     padding: 8px;
     width: 40px;
     height: 100%;
-    border-right: 1px solid var(--menu-border-color);
+    border-right: 1px solid var(--item-border-color);
     font-size: 1.2em;
     background-color: var(--background-color);
 
     &:hover {
-        background-color: var(--menu-border-color);
+        background-color: var(--button-highlight-color);
         cursor: pointer;
     }
 `;
@@ -99,7 +99,7 @@ const OrderItem = ({itemString, loadUrl=()=>{}, allowEdit, empty}) => {
 
     if (allowEdit) {
         return (
-            <tr>
+            <tr className="order-row">
                 <td className='input'>
                     <div style={{display: 'inline-flex', float: 'left', height: '100%', position: 'absolute', left: '0px', top: '0px', bottom: '0px'}}>
                         { changed ? <SideButton onClick={onSaveItem}><FaRegSave/></SideButton> : null }
