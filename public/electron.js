@@ -12,7 +12,7 @@ let externalWebsite;
 let ordering = false;
 
 function createWindow() {
-    containerWindow = new BrowserWindow({width: 1600, height: 1000, frame: true, webPreferences: { nodeIntegration: true }});
+    containerWindow = new BrowserWindow({width: 1600, height: 1020, frame: true, webPreferences: { nodeIntegration: true }});
     containerWindow.setTitle('Food Ordering');
     containerWindow.on('closed', () => containerWindow = null);
     containerWindow.on('page-title-updated', function(e) {
@@ -36,10 +36,10 @@ function createWindow() {
     containerWindow.on('resize', () => {
         let bounds = containerWindow.webContents.getOwnerBrowserWindow().getBounds();
         if (ordering) {
-            mainApp.setBounds({x: 0, y: 0, width: 460, height: bounds.height});
-            externalWebsite.setBounds({x: 460, y:0, width: bounds.width-460, height: bounds.height});
+            mainApp.setBounds({x: 0, y: 0, width: 460, height: bounds.height-20});
+            externalWebsite.setBounds({x: 460, y:0, width: bounds.width-460, height: bounds.height-20});
         } else {
-            mainApp.setBounds({x: 0, y: 0, width: bounds.width, height: bounds.height});
+            mainApp.setBounds({x: 0, y: 0, width: bounds.width, height: bounds.height-20});
             externalWebsite.setBounds({x: bounds.width, y:0, width: 0, height: 0});
         }
     });
@@ -56,15 +56,15 @@ ipcMain.handle('get-url', () => {
 
 ipcMain.handle('start-order', () => {
     let bounds = containerWindow.webContents.getOwnerBrowserWindow().getBounds();
-    mainApp.setBounds({x: 0, y: 0, width: 460, height: bounds.height});
+    mainApp.setBounds({x: 0, y: 0, width: 460, height: bounds.height-20});
     mainApp.setAutoResize({width: false, height: false});
-    externalWebsite.setBounds({x: 460, y:20, width: bounds.width-460, height: bounds.height});
+    externalWebsite.setBounds({x: 460, y:20, width: bounds.width-460, height: bounds.height-20});
     ordering = true;
 });
 
 ipcMain.handle('end-order', () => {
     let bounds = containerWindow.webContents.getOwnerBrowserWindow().getBounds();
-    mainApp.setBounds({x: 0, y: 0, width: bounds.width, height: bounds.height});
+    mainApp.setBounds({x: 0, y: 0, width: bounds.width, height: bounds.height-20});
     mainApp.setAutoResize({width: true, height: false});
     externalWebsite.setBounds({x: bounds.width, y:0, width: 0, height: 0});
     ordering = false;
