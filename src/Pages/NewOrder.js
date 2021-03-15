@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
 import { format } from 'date-fns';
 
 import { filterDeleted, getTotalQty } from '../functions';
@@ -10,6 +11,11 @@ import Button from '../Components/Button';
 import Table from '../Components/Table';
 import Grid from '../Components/Grid';
 import OrderGroup from '../Components/OrderGroup';
+
+const ScrollContainer = styled.div`
+    overflow: scroll;
+    height: calc(100vh - 190px);
+`;
 
 const NewOrder = () => {
     const dispatch = useDispatch();
@@ -112,31 +118,32 @@ const NewOrder = () => {
                 })
             }
             </Grid>
-
-            <Grid columns={`repeat(${numberOfColumns}, 1fr)`} style={{gap: '10px', margin: '10px'}}>
-            {
-                Object.keys(columns).map(key => {
-                    let arr = columns[key];
-                    return <Table key={`order-table-${key}`} style={{width: '100%'}}>
-                        <thead>
-                            <tr>
-                                <td style={{width: '300px'}}>Name</td>
-                                <td>Size</td>
-                                <td>Qty</td>
-                                <td>Note</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                arr.map(category => {
-                                    return <OrderGroup key={`order-group-${category.id}`} title={category.name} category={category.id} allowEdit={true}/>;
-                                })
-                            }
-                        </tbody>
-                    </Table>
-                })
-            }
-            </Grid>
+            <ScrollContainer key={page}>
+                <Grid columns={`repeat(${numberOfColumns}, 1fr)`} style={{gap: '10px', margin: '10px'}}>
+                {
+                    Object.keys(columns).map(key => {
+                        let arr = columns[key];
+                        return <Table key={`order-table-${key}`} style={{width: '100%'}}>
+                            <thead>
+                                <tr>
+                                    <td style={{width: '300px'}}>Name</td>
+                                    <td>Size</td>
+                                    <td>Qty</td>
+                                    <td>Note</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    arr.map(category => {
+                                        return <OrderGroup key={`order-group-${category.id}`} title={category.name} category={category.id} allowEdit={true}/>;
+                                    })
+                                }
+                            </tbody>
+                        </Table>
+                    })
+                }
+                </Grid>
+            </ScrollContainer>
         </div>
     );
 }
