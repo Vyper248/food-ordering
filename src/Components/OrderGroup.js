@@ -5,7 +5,8 @@ import { getTotalQty } from '../functions';
 
 import OrderItem from './OrderItem';
 
-const OrderGroup = ({title, category, empty, ...rest}) => {
+const OrderGroup = ({title, category, empty, filterItems=false, ...rest}) => {
+    let filter = useSelector(state => state.filter);
     let list = useSelector(state => {
         let arrString = empty ? JSON.stringify(state.items.filter(obj => obj.category === category && obj.deleted === undefined))
         : JSON.stringify(state.orderList.filter(obj => obj.category === category && obj.deleted === undefined));
@@ -13,6 +14,7 @@ const OrderGroup = ({title, category, empty, ...rest}) => {
     });
     list = JSON.parse(list);
     list.sort((a,b) => a.order - b.order);
+    if (filterItems) list = list.filter(obj => obj.name.toLowerCase().includes(filter.toLowerCase()));
 
     if (list.length === 0) return null;
 

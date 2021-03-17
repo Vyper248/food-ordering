@@ -11,6 +11,7 @@ import Button from '../Components/Button';
 import Table from '../Components/Table';
 import Grid from '../Components/Grid';
 import OrderGroup from '../Components/OrderGroup';
+import Input from '../Components/Input';
 
 const ScrollContainer = styled.div`
     overflow: scroll;
@@ -26,15 +27,18 @@ const NewOrder = () => {
     const items = useSelector(state => filterDeleted(state.items));
     const orderList = useSelector(state => state.orderList);
     const website = useSelector(state => state.website);
+    const filter = useSelector(state => state.filter);
 
     const setAppPage = (value) => dispatch({type: 'SET_PAGE', payload: value});
     const changeWebsite = (value) => dispatch({type: 'SET_WEBSITE', payload: value});
     const setOrderList = (value) => dispatch({type: 'SET_ORDER_LIST', payload: value});
     const goToOrder = () => dispatch({type: 'SET_PAGE', payload: 'Order'});
     const setMessage = (value) => dispatch({type: 'SET_MESSAGE', payload: value});
+    const setFilter = (value) => dispatch({type: 'SET_FILTER', payload: value});
 
     useEffect(() => {
         setOrderList(JSON.parse(JSON.stringify(items)));
+        setFilter('');
     }, []);
 
     const onChangePage = (page) => () => {
@@ -102,14 +106,26 @@ const NewOrder = () => {
         goToOrder();
     }
 
+    const onChangeFilter = (value) => {
+        setFilter(value);
+    }
+
     return (
         <div style={{maxWidth: '1400px', margin: 'auto'}}>
             <Heading value='New Order'/>
 
-            <Button value='Import' onClick={onClickImport}/>
-            <Dropdown value={website} options={websites.map(obj => ({value: obj.id, display: obj.name}))} onChange={changeWebsite} width='150px'/>
-            <Button value='Download' onClick={onDownload}/>
-            <Button value='Order' onClick={onOrder}/>
+            <Grid columns={'185px auto 185px'}>
+                <div></div>
+                <div>
+                    <Button value='Import' onClick={onClickImport}/>
+                    <Dropdown value={website} options={websites.map(obj => ({value: obj.id, display: obj.name}))} onChange={changeWebsite} width='150px'/>
+                    <Button value='Download' onClick={onDownload}/>
+                    <Button value='Order' onClick={onOrder}/>
+                </div>
+                <div>
+                    <Input value={filter} onChange={onChangeFilter} placeholder='Search'/>
+                </div>
+            </Grid>
 
             <Grid columns={`repeat(${pages.length}, 1fr)`} style={{gap: '10px', margin: '10px'}}>
             {
@@ -135,7 +151,7 @@ const NewOrder = () => {
                             <tbody>
                                 {
                                     arr.map(category => {
-                                        return <OrderGroup key={`order-group-${category.id}`} title={category.name} category={category.id} allowEdit={true}/>;
+                                        return <OrderGroup key={`order-group-${category.id}`} title={category.name} category={category.id} allowEdit={true} filterItems={true}/>;
                                     })
                                 }
                             </tbody>

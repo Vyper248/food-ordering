@@ -5,7 +5,7 @@ const localStorageMiddleware = ({getState}) => {
     return (next) => (action) => {
         const result = next(action);
         
-        const ignore = ['SET_PAGE', 'SET_FETCHING', 'SET_MESSAGE'];
+        const ignore = ['SET_PAGE', 'SET_FETCHING', 'SET_MESSAGE', 'SET_FILTER'];
         if (ignore.includes(action.type)) return result;
 
         localStorage.setItem('foodOrderingState', JSON.stringify(getState()));
@@ -21,6 +21,7 @@ const getFromLocalStorage = () => {
         state.page = 'Home';
         state.message = {text: '', type: ''};
         state.fetching = false;
+        state.filter = '';
         return state;
     }
 }

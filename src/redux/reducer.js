@@ -11,6 +11,7 @@ const initialState = {
     lastSync: 0,
     fetching: false,
     currentItem: 0,
+    filter: '',
     orderList: [],
     items: [],
     categories: [],
@@ -41,6 +42,7 @@ export const reducer = (state = initialState, action) => {
         case 'SET_FETCHING': return {...state, fetching: value};
         case 'SET_WEBSITE': return {...state, website: value};
         case 'SET_CURRENT_ITEM': return {...state, currentItem: value};
+        case 'SET_FILTER': return {...state, filter: value};
 
         case 'ADD_ITEM': newArray = addObject(state.items, value); return {...state, items: newArray};
         case 'UPDATE_ITEM': newArray = replaceObject(state.items, value); return {...state, items: newArray};
