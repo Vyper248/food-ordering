@@ -46,7 +46,7 @@ const OrderItem = ({itemString, loadUrl=()=>{}, allowEdit, empty}) => {
     if (url.length > 0 && !url.includes('http')) url = currentWebsite.searchURL + details.url;
     if (url.length === 0) url = currentWebsite.searchURL + item.name;
 
-    if (empty === false && (item.qty === undefined || item.qty === 0)) return null;
+    if (empty === false && !item.qty) return null;
 
     const compareWithOriginal = () => {
         let originalObj = JSON.parse(original);
