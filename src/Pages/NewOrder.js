@@ -69,6 +69,7 @@ const NewOrder = () => {
     let numberOfColumns = Object.keys(columns).length;
 
     const parseCommas = (string) => {
+        if (string === undefined) return '';
         return string.replace(/,/g, ' ');
     }
 
