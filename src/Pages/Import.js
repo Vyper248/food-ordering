@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { filterDeleted } from '../functions';
 
-import Input from '../Components/Input';
 import Heading from '../Components/Heading';
 import Button from '../Components/Button';
 import Table from '../Components/Table';
@@ -35,14 +34,11 @@ const Import = () => {
 
                 for (let i = 1; i < lines.length; i++) {
                     let lineArr = lines[i];
-                    let heading = false;
                     let name = lineArr[0];
                     let size = lineArr[1];
                     let qty = lineArr[2];
-                    let note = lineArr[3];
 
                     if (qty === undefined || qty.length === 0) {
-                        heading = true;
                         let categoryObj = categories.find(obj => obj.name.toLowerCase() === name.toLowerCase());
                         if (categoryObj !== undefined) currentCategory = categoryObj.id;
                         else currentCategory = '0';
@@ -133,7 +129,6 @@ const Import = () => {
                         <th>Name</th>
                         <th>Size</th>
                         <th>Qty</th>
-                        <th>Note</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -145,7 +140,6 @@ const Import = () => {
                             <td>{obj.name}</td>
                             <td>{details.size}</td>
                             <td>{obj.qty}</td>
-                            <td>{obj.note}</td>
                         </tr>
                     })
                 }

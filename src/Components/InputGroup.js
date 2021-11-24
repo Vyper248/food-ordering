@@ -9,6 +9,7 @@ const StyledComp = styled.div`
     & > * {
         margin: 0px !important;
         border-radius: 0px;
+        border-color:var(--menu-border-color);
     }
 
     & > *:first-child {

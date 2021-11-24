@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 
 import HeaderMessage from './HeaderMessage';
+import EditPopup from './EditPopup';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -33,23 +34,21 @@ const MenuItem = ({page, currentPage, onClick, value=page}) => {
 const MenuBar = () => {
     const dispatch = useDispatch();
     const currentPage = useSelector(state => state.page);
-    const currentItem = useSelector(state => state.currentItem);
     const message = useSelector(state => state.message);
+    const [editOpen, setEditOpen] = useState(false);
 
     const setPage = (value) => dispatch({type: 'SET_PAGE', payload: value});
 
-    const getURL = () => {
-        ipcRenderer.invoke('get-url');
-    }
-
-    useEffect(() => {
-        ipcRenderer.on('receive-url', (e, url) => {
-            dispatch({type: 'UPDATE_URL', payload: url});
-        });
-    }, []);
-
     const onClick = (page) => (e) => {
         setPage(page);
+    }
+
+    const onClickEdit = () => {
+        setEditOpen(true);
+    }
+
+    const onCloseEdit = () => {
+        setEditOpen(false);
     }
 
     const onPrint = () => {
@@ -61,7 +60,8 @@ const MenuBar = () => {
             <StyledComp>
                 <MenuItem page="Home" currentPage={currentPage} onClick={onClick} value='Finish'/>
                 <div style={{flexGrow: '1'}}></div>
-                <StyledMenuItem onClick={getURL} style={{borderLeft: '1px solid var(--menu-border-color)'}}>Set URL</StyledMenuItem>
+                { editOpen ? <EditPopup onCancel={onCloseEdit}/> : null }
+                <StyledMenuItem onClick={onClickEdit} style={{borderLeft: '1px solid var(--menu-border-color)', borderRight: 'none'}}>Edit</StyledMenuItem>
             </StyledComp>
         );
     }

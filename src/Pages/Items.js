@@ -44,7 +44,6 @@ const Items = () => {
     const updateItem = (item) => dispatch({type: 'UPDATE_ITEM', payload: item});
     const reorderItem = (item) => dispatch({type: 'REORDER_ITEM', payload: item});
     const deleteItem = (id) => dispatch({type: 'REMOVE_ITEM', payload: id});
-    const setPage = (value) => dispatch({type: 'SET_PAGE', payload: value});
 
     if (categories.length === 0) return <p>You must add a category to add items to.</p>
     if (websites.length === 0) return <p>You must add a website before adding items.</p>
@@ -106,7 +105,6 @@ const Items = () => {
         data.forEach((item, i) => {
             let newItem = {...item};
             newItem.order = i;
-            let oldItem = filteredItems.find(obj => obj.id === item.id);
             reorderItem(newItem);
         });
     }

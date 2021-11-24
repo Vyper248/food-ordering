@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     }
 });
 
-const Table = ({children, data, page, column, website}) => {
+const Table = ({data, page, column, website}) => {
     return (
         <View style={styles.table}>
         {
