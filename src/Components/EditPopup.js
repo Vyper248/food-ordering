@@ -25,9 +25,11 @@ const EditPopup = ({onCancel}) => {
     const currentItem = useSelector(state => state.currentItem);
     const website = useSelector(state => state.website);
     const items = useSelector(state => state.items);
+    const orderList = useSelector(state => state.orderList);
     const [urlButtonText, setUrlButtonText] = useState('Set URL');
     
     let itemObj = items.find(obj => obj.id === currentItem);
+    let orderObj = orderList.find(obj => obj.id === currentItem);
 
     const [tempItem, setTempItem] = useState({...itemObj});
 
@@ -76,8 +78,9 @@ const EditPopup = ({onCancel}) => {
     }
 
     const onSave = () => {
+        let orderItem = {...tempItem, qty: orderObj.qty};
         dispatch({type: 'UPDATE_ITEM', payload: tempItem});
-        dispatch({type: 'UPDATE_ORDER_LIST', payload: tempItem});
+        dispatch({type: 'UPDATE_ORDER_LIST', payload: orderItem});
         onCancel();
     }
 
