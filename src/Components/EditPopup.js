@@ -78,7 +78,8 @@ const EditPopup = ({onCancel}) => {
     }
 
     const onSave = () => {
-        let orderItem = {...tempItem, qty: orderObj.qty};
+        let orderItem = {...tempItem};
+        if (orderObj !== undefined) orderItem.qty = orderObj.qty;
         dispatch({type: 'UPDATE_ITEM', payload: tempItem});
         dispatch({type: 'UPDATE_ORDER_LIST', payload: orderItem});
         onCancel();
